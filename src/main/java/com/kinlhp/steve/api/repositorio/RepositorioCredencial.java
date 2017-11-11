@@ -4,7 +4,6 @@ import com.kinlhp.steve.api.dominio.Credencial;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.math.BigInteger;
-import java.time.ZonedDateTime;
 
 @RepositoryRestResource(
 		collectionResourceRel = "credenciais",
@@ -12,5 +11,5 @@ import java.time.ZonedDateTime;
 		path = "credenciais"
 )
 public interface RepositorioCredencial
-		extends RepositorioAuditavel<Credencial, BigInteger, ZonedDateTime, Credencial> {
+		extends RepositorioAuditavel<Credencial, Credencial, BigInteger> {
 }

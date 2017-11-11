@@ -17,13 +17,12 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 
 @Entity(name = "item_ordem_servico")
 @Getter
 @Setter
 public class ItemOrdemServico
-		extends AuditavelAbstrato<BigInteger, ZonedDateTime, Credencial> {
+		extends AuditavelAbstrato<Credencial, BigInteger> {
 
 	private static final long serialVersionUID = -2325486476898097310L;
 

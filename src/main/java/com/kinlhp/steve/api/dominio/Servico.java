@@ -7,13 +7,11 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
-import java.time.ZonedDateTime;
 
 @Entity(name = "servico")
 @Getter
 @Setter
-public class Servico
-		extends AuditavelAbstrato<BigInteger, ZonedDateTime, Credencial> {
+public class Servico extends AuditavelAbstrato<Credencial, BigInteger> {
 
 	private static final long serialVersionUID = 6278348323018235171L;
 

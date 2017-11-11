@@ -5,7 +5,6 @@ import com.kinlhp.steve.api.dominio.ItemOrdemServico;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.math.BigInteger;
-import java.time.ZonedDateTime;
 
 @RepositoryRestResource(
 		collectionResourceRel = "itensordemservico",
@@ -13,5 +12,5 @@ import java.time.ZonedDateTime;
 		path = "itensordemservico"
 )
 public interface RepositorioItemOrdemServico
-		extends RepositorioAuditavel<ItemOrdemServico, BigInteger, ZonedDateTime, Credencial> {
+		extends RepositorioAuditavel<ItemOrdemServico, Credencial, BigInteger> {
 }

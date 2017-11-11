@@ -17,13 +17,11 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.time.ZonedDateTime;
 
 @Entity(name = "conta_pagar")
 @Getter
 @Setter
-public class ContaPagar
-		extends AuditavelAbstrato<BigInteger, ZonedDateTime, Credencial> {
+public class ContaPagar extends AuditavelAbstrato<Credencial, BigInteger> {
 
 	private static final long serialVersionUID = -2883253148931159796L;
 

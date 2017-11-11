@@ -5,7 +5,6 @@ import com.kinlhp.steve.api.dominio.Uf;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.math.BigInteger;
-import java.time.ZonedDateTime;
 
 @RepositoryRestResource(
 		collectionResourceRel = "ufs",
@@ -13,5 +12,5 @@ import java.time.ZonedDateTime;
 		path = "ufs"
 )
 public interface RepositorioUf
-		extends RepositorioAuditavel<Uf, BigInteger, ZonedDateTime, Credencial> {
+		extends RepositorioAuditavel<Uf, Credencial, BigInteger> {
 }

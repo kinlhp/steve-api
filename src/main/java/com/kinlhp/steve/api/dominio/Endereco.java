@@ -15,13 +15,11 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
-import java.time.ZonedDateTime;
 
 @Entity(name = "endereco")
 @Getter
 @Setter
-public class Endereco
-		extends AuditavelAbstrato<BigInteger, ZonedDateTime, Credencial> {
+public class Endereco extends AuditavelAbstrato<Credencial, BigInteger> {
 
 	private static final long serialVersionUID = 5940836452430044612L;
 

@@ -14,13 +14,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
-import java.time.ZonedDateTime;
 
 @Entity(name = "email")
 @Getter
 @Setter
-public class Email
-		extends AuditavelAbstrato<BigInteger, ZonedDateTime, Credencial> {
+public class Email extends AuditavelAbstrato<Credencial, BigInteger> {
 
 	private static final long serialVersionUID = -9030952428452696718L;
 

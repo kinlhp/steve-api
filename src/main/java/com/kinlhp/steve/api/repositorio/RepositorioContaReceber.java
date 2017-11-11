@@ -5,7 +5,6 @@ import com.kinlhp.steve.api.dominio.Credencial;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.math.BigInteger;
-import java.time.ZonedDateTime;
 
 @RepositoryRestResource(
 		collectionResourceRel = "contasreceber",
@@ -13,5 +12,5 @@ import java.time.ZonedDateTime;
 		path = "contasreceber"
 )
 public interface RepositorioContaReceber
-		extends RepositorioAuditavel<ContaReceber, BigInteger, ZonedDateTime, Credencial> {
+		extends RepositorioAuditavel<ContaReceber, Credencial, BigInteger> {
 }

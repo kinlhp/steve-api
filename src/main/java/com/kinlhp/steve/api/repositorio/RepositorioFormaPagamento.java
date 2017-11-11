@@ -5,7 +5,6 @@ import com.kinlhp.steve.api.dominio.FormaPagamento;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.math.BigInteger;
-import java.time.ZonedDateTime;
 
 @RepositoryRestResource(
 		collectionResourceRel = "formaspagamento",
@@ -13,5 +12,5 @@ import java.time.ZonedDateTime;
 		path = "formaspagamento"
 )
 public interface RepositorioFormaPagamento
-		extends RepositorioAuditavel<FormaPagamento, BigInteger, ZonedDateTime, Credencial> {
+		extends RepositorioAuditavel<FormaPagamento, Credencial, BigInteger> {
 }

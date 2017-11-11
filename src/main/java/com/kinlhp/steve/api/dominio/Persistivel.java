@@ -2,9 +2,9 @@ package com.kinlhp.steve.api.dominio;
 
 import java.io.Serializable;
 
-public interface Persistivel<ID extends Serializable> extends Serializable {
+public interface Persistivel<PK extends Serializable> extends Serializable {
 
-	ID getId();
+	PK getId();
 
-	void setId(final ID id);
+	void setId(final PK id);
 }

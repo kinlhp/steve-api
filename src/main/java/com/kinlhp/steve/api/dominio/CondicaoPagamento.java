@@ -12,13 +12,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
-import java.time.ZonedDateTime;
 
 @Entity(name = "condicao_pagamento")
 @Getter
 @Setter
 public class CondicaoPagamento
-		extends AuditavelAbstrato<BigInteger, ZonedDateTime, Credencial> {
+		extends AuditavelAbstrato<Credencial, BigInteger> {
 
 	private static final long serialVersionUID = -8076965554856626392L;
 

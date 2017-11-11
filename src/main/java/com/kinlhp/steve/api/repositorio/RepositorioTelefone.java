@@ -5,7 +5,6 @@ import com.kinlhp.steve.api.dominio.Telefone;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.math.BigInteger;
-import java.time.ZonedDateTime;
 
 @RepositoryRestResource(
 		collectionResourceRel = "telefones",
@@ -13,5 +12,5 @@ import java.time.ZonedDateTime;
 		path = "telefones"
 )
 public interface RepositorioTelefone
-		extends RepositorioAuditavel<Telefone, BigInteger, ZonedDateTime, Credencial> {
+		extends RepositorioAuditavel<Telefone, Credencial, BigInteger> {
 }

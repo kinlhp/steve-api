@@ -12,14 +12,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
-import java.time.ZonedDateTime;
 import java.util.Set;
 
 @Entity(name = "forma_pagamento")
 @Getter
 @Setter
-public class FormaPagamento
-		extends AuditavelAbstrato<BigInteger, ZonedDateTime, Credencial> {
+public class FormaPagamento extends AuditavelAbstrato<Credencial, BigInteger> {
 
 	private static final long serialVersionUID = 2230203299841676971L;
 

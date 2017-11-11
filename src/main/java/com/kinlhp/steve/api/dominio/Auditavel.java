@@ -1,24 +1,28 @@
 package com.kinlhp.steve.api.dominio;
 
 import java.io.Serializable;
-import java.time.temporal.Temporal;
+import java.time.ZonedDateTime;
 
-public interface Auditavel<ID extends Serializable, WHEN extends Temporal, WHO extends Serializable>
-		extends Persistivel<ID> {
+public interface Auditavel<U extends Serializable, PK extends Serializable>
+		extends Persistivel<PK> {
 
-	WHEN getDataCriacao();
+	ZonedDateTime getDataCriacao();
 
-	void setDataCriacao(final WHEN dataCriacao);
+	void setDataCriacao(final ZonedDateTime dataCriacao);
 
-	WHEN getDataUltimaAlteracao();
+	ZonedDateTime getDataUltimaAlteracao();
 
-	void setDataUltimaAlteracao(final WHEN dataUltimaAlteracao);
+	void setDataUltimaAlteracao(final ZonedDateTime dataUltimaAlteracao);
 
-	WHO getUsuarioCriacao();
+	U getUsuarioCriacao();
 
-	void setUsuarioCriacao(final WHO usuarioCriacao);
+	void setUsuarioCriacao(final U usuarioCriacao);
 
-	WHO getUsuarioUltimaAlteracao();
+	U getUsuarioUltimaAlteracao();
 
-	void setUsuarioUltimaAlteracao(final WHO usuarioUltimaAlteracao);
+	void setUsuarioUltimaAlteracao(final U usuarioUltimaAlteracao);
+
+	Integer getVersao();
+
+	void setVersao(final Integer versao);
 }

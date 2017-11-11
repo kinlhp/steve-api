@@ -5,7 +5,6 @@ import com.kinlhp.steve.api.dominio.Email;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.math.BigInteger;
-import java.time.ZonedDateTime;
 
 @RepositoryRestResource(
 		collectionResourceRel = "emails",
@@ -13,5 +12,5 @@ import java.time.ZonedDateTime;
 		path = "emails"
 )
 public interface RepositorioEmail
-		extends RepositorioAuditavel<Email, BigInteger, ZonedDateTime, Credencial> {
+		extends RepositorioAuditavel<Email, Credencial, BigInteger> {
 }
