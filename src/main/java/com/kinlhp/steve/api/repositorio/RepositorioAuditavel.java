@@ -7,6 +7,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -15,26 +16,31 @@ import java.time.ZonedDateTime;
 public interface RepositorioAuditavel<T extends Auditavel<U, PK>, U extends Serializable, PK extends Serializable>
 		extends RepositorioPersistivel<T, PK> {
 
+	@PreAuthorize(value = "hasAuthority('PADRAO') and #oauth2.hasScope('leitura')")
 	@RestResource(path = "por-criacao", rel = "por-criacao")
 	Page<T> findByDataCriacao(
 			@Param(value = "data") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ") final ZonedDateTime data,
 			final Pageable pageable
 	);
 
+	@PreAuthorize(value = "hasAuthority('PADRAO') and #oauth2.hasScope('leitura')")
 	@RestResource(path = "por-alteracao", rel = "por-alteracao")
 	Page<T> findByDataUltimaAlteracao(
 			@Param(value = "data") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ") final ZonedDateTime data,
 			final Pageable pageable
 	);
 
+	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR') and #oauth2.hasScope('leitura')")
 	@RestResource(path = "por-criador", rel = "por-criador")
 	Page<T> findByUsuarioCriacao(@Param(value = "usuario") final U usuario,
 	                             final Pageable pageable);
 
+	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR') and #oauth2.hasScope('leitura')")
 	@RestResource(path = "por-alterador", rel = "por-alterador")
 	Page<T> findByUsuarioUltimaAlteracao(@Param(value = "usuario") final U usuario,
 	                                     final Pageable pageable);
 
+	@PreAuthorize(value = "hasAuthority('PADRAO') and #oauth2.hasScope('leitura')")
 	@RestResource(path = "por-versao", rel = "por-versao")
 	Page<T> findByVersao(@Param(value = "versao") final Integer versao,
 	                     final Pageable pageable);
