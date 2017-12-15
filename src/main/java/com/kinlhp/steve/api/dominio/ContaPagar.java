@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -25,6 +26,7 @@ public class ContaPagar extends AuditavelAbstrato<Credencial, BigInteger> {
 
 	private static final long serialVersionUID = -2883253148931159796L;
 
+	@JoinColumn(name = "cedente")
 	@ManyToOne
 	@NotNull
 	@Valid

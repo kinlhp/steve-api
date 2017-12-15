@@ -38,6 +38,7 @@ public class ItemOrdemServico
 	@Valid
 	private Ordem ordem;
 
+	@JoinColumn(name = "servico")
 	@ManyToOne
 	@NotNull
 	@Valid

@@ -24,7 +24,7 @@ import java.util.Set;
 @Setter
 public class Ordem extends AuditavelAbstrato<Credencial, BigInteger> {
 
-	private static final long serialVersionUID = 7400752695687585527L;
+	private static final long serialVersionUID = -5398839548743943291L;
 
 	@JoinColumn(name = "cliente")
 	@ManyToOne
@@ -39,7 +39,7 @@ public class Ordem extends AuditavelAbstrato<Credencial, BigInteger> {
 			mappedBy = "ordem"
 	)
 	@Valid
-	private Set<ItemOrdemServico> itensOrdemServico;
+	private Set<ItemOrdemServico> itens;
 
 	@Size(max = 256)
 	private String observacao;
