@@ -47,8 +47,15 @@
         <hibernate-validator.version>5.4.2.Final</hibernate-validator.version>
         <jackson.version>2.9.2</jackson.version>
         <mysql.version>6.0.6</mysql.version>
+        <stella.version>2.1.2</stella.version>
     </properties>
     <dependencies>
+        <!-- caelum -->
+        <dependency>
+            <groupId>br.com.caelum.stella</groupId>
+            <artifactId>caelum-stella-core</artifactId>
+            <version>${stella.version}</version>
+        </dependency>
         <!-- flyway -->
         <dependency>
             <groupId>org.flywaydb</groupId>
