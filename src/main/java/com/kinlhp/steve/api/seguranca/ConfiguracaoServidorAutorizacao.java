@@ -52,8 +52,7 @@ public class ConfiguracaoServidorAutorizacao
 	}
 
 	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints)
-			throws Exception {
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 		endpoints
 				.pathMapping("/oauth/authorize", basePath + "/oauth/authorize")
 				.pathMapping("/oauth/check_token", basePath + "/oauth/check_token")
@@ -71,6 +70,7 @@ public class ConfiguracaoServidorAutorizacao
 	public AccessTokenConverter accessTokenConverter() {
 		JwtAccessTokenConverter jwtAccessTokenConverter =
 				new JwtAccessTokenConverter();
+		// TODO: 3/27/18 remover hard coded
 		jwtAccessTokenConverter.setSigningKey("steve");
 		return jwtAccessTokenConverter;
 	}

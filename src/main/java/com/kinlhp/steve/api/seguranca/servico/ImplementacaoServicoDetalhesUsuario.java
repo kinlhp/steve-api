@@ -37,8 +37,8 @@ public class ImplementacaoServicoDetalhesUsuario
 					MessageSourceAccessor message = SpringSecurityMessageSource
 							.getAccessor();
 					return new UsernameNotFoundException(message.getMessage(
-							"AbstractUserDetailsAuthenticationProvider.badCredentials",
-							"Bad credentials"));
+							"DigestAuthenticationFilter.usernameNotFound",
+							new Object[]{username}, "Bad credentials"));
 				});
 		return new DetalhesUsuario<Credencial>(credencial, concederAutoridades(credencial));
 	}
