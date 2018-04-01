@@ -1,6 +1,8 @@
 package com.kinlhp.steve.api.dominio;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.kinlhp.steve.api.servico.validacao.alteracao.ValidacaoAlteracaoPessoa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -76,6 +78,7 @@ public class Pessoa extends AuditavelAbstrato<Credencial, BigInteger> {
 	private boolean perfilTransportador;
 
 	@Column(name = "perfil_usuario")
+	@JsonDeserialize(using = ValidacaoAlteracaoPessoa.ValidacaoAlteracaoPerfilUsuario.class)
 	private boolean perfilUsuario;
 
 	@Enumerated(value = EnumType.STRING)
