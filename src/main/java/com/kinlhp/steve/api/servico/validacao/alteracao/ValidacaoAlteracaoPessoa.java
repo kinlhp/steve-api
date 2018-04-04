@@ -19,8 +19,8 @@ public class ValidacaoAlteracaoPessoa extends ValidacaoPessoa {
 	private static final long serialVersionUID = 1457817883262828945L;
 
 	@Override
-	public boolean supports(Class<?> classe) {
-		return Pessoa.class.equals(classe);
+	public boolean supports(Class<?> clazz) {
+		return Pessoa.class.equals(clazz);
 	}
 
 	@Override
