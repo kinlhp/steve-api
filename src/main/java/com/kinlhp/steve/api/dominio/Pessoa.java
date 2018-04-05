@@ -78,7 +78,10 @@ public class Pessoa extends AuditavelAbstrato<Credencial, BigInteger> {
 	private boolean perfilTransportador;
 
 	@Column(name = "perfil_usuario")
-	@JsonDeserialize(using = ValidacaoAlteracaoPessoa.ValidacaoAlteracaoPerfilUsuario.class)
+	@JsonDeserialize(
+			using = ValidacaoAlteracaoPessoa
+					.ValidacaoAlteracaoPerfilUsuario.class
+	)
 	private boolean perfilUsuario;
 
 	@Enumerated(value = EnumType.STRING)

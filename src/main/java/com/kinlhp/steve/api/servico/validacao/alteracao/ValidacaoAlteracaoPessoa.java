@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.kinlhp.steve.api.dominio.Permissao;
 import com.kinlhp.steve.api.dominio.Pessoa;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoPessoa;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
@@ -43,16 +42,17 @@ public class ValidacaoAlteracaoPessoa extends ValidacaoPessoa {
 		private static final long serialVersionUID = 6653142342814346849L;
 
 		@Override
-		public Boolean deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-			final Pessoa registroInalterado = (Pessoa) jsonParser.getCurrentValue();
+		public Boolean deserialize(JsonParser jsonParser,
+		                           DeserializationContext deserializationContext)
+				throws IOException {
+			final Pessoa registroInalterado = (Pessoa) jsonParser
+					.getCurrentValue();
 			final boolean perfilUsuario = jsonParser.getBooleanValue();
 			if (registroInalterado.getId() != null) {
-				ValidacaoAlteracaoPessoa.this.verificarPermissao(Permissao.Descricao.ADMINISTRADOR);
 				if (registroInalterado.isPerfilUsuario() != perfilUsuario) {
-					throw new AccessDeniedException(mensagem.getMessage(
-							"JdbcDaoImpl.noAuthority",
-							new Object[]{ValidacaoAlteracaoPessoa.this.autenticacao.getPrincipal()},
-							"Access is denied"));
+					// TODO: 4/5/18 implementar internacionalizacao
+					ValidacaoAlteracaoPessoa.this
+							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR, "Somente usuário administrador pode definir pessoa com perfil de usuário");
 				}
 			}
 			return perfilUsuario;

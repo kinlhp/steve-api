@@ -74,10 +74,10 @@ public abstract class ValidacaoPessoa extends ValidavelAbstrato<Pessoa> {
 	 */
 	protected void validarPerfilUsuario() {
 		if (super.dominio.isPerfilUsuario()) {
-			super.verificarPermissao(Permissao.Descricao.ADMINISTRADOR);
+			// TODO: 4/5/18 implementar internacionalizacao
+			super.verificarPermissao(Permissao.Descricao.ADMINISTRADOR, "Somente usuário administrador pode definir pessoa com perfil de usuário");
 			if (super.dominio.getTipo() != null) {
-				if (Pessoa.Tipo.JURIDICA.equals(super.dominio.getTipo())
-						&& super.dominio.isPerfilUsuario()) {
+				if (Pessoa.Tipo.JURIDICA.equals(super.dominio.getTipo())) {
 					// TODO: 3/27/18 implementar internacionalizacao
 					super.erros.rejectValue("perfilUsuario", "perfilUsuario.invalid", "Atributo \"perfilUsuario\" inválido: Somente pessoa física pode ter perfil de usuário");
 				}
