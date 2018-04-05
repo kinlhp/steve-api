@@ -10,4 +10,8 @@ public interface Validavel extends Serializable, Validator {
 
 	void verificarPermissao(Permissao.Descricao permissao)
 			throws AccessDeniedException;
+
+	void verificarPermissao(Permissao.Descricao permissao,
+	                        String motivoAcessoNegado)
+			throws AccessDeniedException;
 }
