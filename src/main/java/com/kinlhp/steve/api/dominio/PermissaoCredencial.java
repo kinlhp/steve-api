@@ -16,6 +16,8 @@ import java.math.BigInteger;
 public class PermissaoCredencial
 		extends AuditavelAbstrato<Credencial, BigInteger> {
 
+	private static final long serialVersionUID = -911217811195502545L;
+
 	@JoinColumn(name = "credencial", updatable = false)
 	@ManyToOne
 	@NotNull
