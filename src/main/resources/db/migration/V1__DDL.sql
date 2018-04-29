@@ -475,9 +475,7 @@ CREATE TABLE IF NOT EXISTS `steve`.`conta_receber` (
   `ordem` BIGINT UNSIGNED NOT NULL,
   `numero_parcela` TINYINT UNSIGNED NOT NULL DEFAULT 0,
   `versao` TINYINT UNSIGNED NOT NULL DEFAULT 0,
-  `montante_pago` DECIMAL(9,2) UNSIGNED NOT NULL DEFAULT 0,
-  `saldo_devedor` DECIMAL(9,2) UNSIGNED NOT NULL,
-  `valor` DECIMAL(9,2) UNSIGNED NOT NULL COMMENT '	',
+  `valor` DECIMAL(9,2) UNSIGNED NOT NULL,
   `data_criacao` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `data_ultima_alteracao` TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `data_vencimento` DATE NULL,
@@ -533,8 +531,6 @@ CREATE TABLE IF NOT EXISTS `steve`.`conta_pagar` (
   `usuario_ultima_alteracao` SMALLINT UNSIGNED NULL,
   `versao` TINYINT UNSIGNED NOT NULL DEFAULT 0,
   `numero_parcela` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
-  `montante_pago` DECIMAL(9,2) UNSIGNED NOT NULL DEFAULT 0,
-  `saldo_devedor` DECIMAL(9,2) UNSIGNED NOT NULL,
   `valor` DECIMAL(9,2) UNSIGNED NOT NULL,
   `data_criacao` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `data_ultima_alteracao` TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -644,6 +640,105 @@ CREATE TABLE IF NOT EXISTS `steve`.`permissao_credencial` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `steve`.`movimentacao_conta_receber`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `steve`.`movimentacao_conta_receber` ;
+
+SHOW WARNINGS;
+CREATE TABLE IF NOT EXISTS `steve`.`movimentacao_conta_receber` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `condicao_pagamento` SMALLINT UNSIGNED NOT NULL,
+  `usuario_criacao` SMALLINT UNSIGNED NOT NULL,
+  `usuario_ultima_alteracao` SMALLINT UNSIGNED NULL,
+  `conta_receber` BIGINT UNSIGNED NOT NULL,
+  `versao` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `desconto_concedido` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT 0,
+  `juro_aplicado` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT 0,
+  `valor` DECIMAL(9,2) UNSIGNED NOT NULL,
+  `data_criacao` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_ultima_alteracao` TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `observacao` VARCHAR(256) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NULL,
+  PRIMARY KEY (`id`),
+  INDEX `FK_movimentacao_conta_receber_condicao_pagamento_INDEX` (`condicao_pagamento` ASC),
+  INDEX `FK_movimentacao_conta_receber_conta_receber_INDEX` (`conta_receber` ASC),
+  INDEX `FK_movimentacao_conta_receber_usuario_criacao_INDEX` (`usuario_criacao` ASC),
+  INDEX `FK_movimentacao_conta_receber_usuario_ultima_alteracao_INDEX` (`usuario_ultima_alteracao` ASC),
+  INDEX `data_criacao_INDEX` (`data_criacao` ASC),
+  CONSTRAINT `FK_movimentacao_conta_receber_condicao_pagamento`
+    FOREIGN KEY (`condicao_pagamento`)
+    REFERENCES `steve`.`condicao_pagamento` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FK_movimentacao_conta_receber_conta_receber`
+    FOREIGN KEY (`conta_receber`)
+    REFERENCES `steve`.`conta_receber` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FK_movimentacao_conta_receber_usuario_criacao`
+    FOREIGN KEY (`usuario_criacao`)
+    REFERENCES `steve`.`credencial` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FK_movimentacao_conta_receber_usuario_ultima_alteracao`
+    FOREIGN KEY (`usuario_ultima_alteracao`)
+    REFERENCES `steve`.`credencial` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `steve`.`movimentacao_conta_pagar`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `steve`.`movimentacao_conta_pagar` ;
+
+SHOW WARNINGS;
+CREATE TABLE IF NOT EXISTS `steve`.`movimentacao_conta_pagar` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `condicao_pagamento` SMALLINT UNSIGNED NOT NULL,
+  `usuario_criacao` SMALLINT UNSIGNED NOT NULL,
+  `usuario_ultima_alteracao` SMALLINT UNSIGNED NULL,
+  `conta_pagar` BIGINT UNSIGNED NOT NULL,
+  `versao` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `desconto_concedido` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT 0,
+  `juro_aplicado` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT 0,
+  `valor` DECIMAL(9,2) UNSIGNED NOT NULL,
+  `data_criacao` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_ultima_alteracao` TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `observacao` VARCHAR(256) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NULL,
+  PRIMARY KEY (`id`),
+  INDEX `FK_movimentacao_conta_pagar_condicao_pagamento_INDEX` (`condicao_pagamento` ASC),
+  INDEX `FK_movimentacao_conta_pagar_conta_pagar_INDEX` (`conta_pagar` ASC),
+  INDEX `FK_movimentacao_conta_pagar_usuario_criacao_INDEX` (`usuario_criacao` ASC),
+  INDEX `FK_movimentacao_conta_pagar_usuario_ultima_alteracao_INDEX` (`usuario_ultima_alteracao` ASC),
+  INDEX `data_criacao_INDEX` (`data_criacao` ASC),
+  CONSTRAINT `FK_movimentacao_conta_pagar_condicao_pagamento`
+    FOREIGN KEY (`condicao_pagamento`)
+    REFERENCES `steve`.`condicao_pagamento` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FK_movimentacao_conta_pagar_conta_pagar`
+    FOREIGN KEY (`conta_pagar`)
+    REFERENCES `steve`.`conta_pagar` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FK_movimentacao_conta_pagar_usuario_criacao`
+    FOREIGN KEY (`usuario_criacao`)
+    REFERENCES `steve`.`credencial` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FK_movimentacao_conta_pagar_usuario_ultima_alteracao`
+    FOREIGN KEY (`usuario_ultima_alteracao`)
+    REFERENCES `steve`.`credencial` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
 
 USE `steve`;
 
