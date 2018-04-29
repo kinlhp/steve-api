@@ -56,7 +56,7 @@ public class ContaPagar extends AuditavelAbstrato<Credencial, BigInteger> {
 	@OneToMany(
 			cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
 			fetch = FetchType.EAGER,
-			mappedBy = "conta_pagar"
+			mappedBy = "contaPagar"
 	)
 	@Valid
 	private Set<MovimentacaoContaPagar> movimentacoes;
