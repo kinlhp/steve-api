@@ -1,15 +1,19 @@
 package com.kinlhp.steve.api.dominio;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -17,13 +21,14 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity(name = "conta_receber")
 @Getter
 @Setter
 public class ContaReceber extends AuditavelAbstrato<Credencial, BigInteger> {
 
-	private static final long serialVersionUID = -3273118562626360971L;
+	private static final long serialVersionUID = 4120483700579863698L;
 
 	@JoinColumn(name = "condicao_pagamento")
 	@ManyToOne
@@ -34,10 +39,14 @@ public class ContaReceber extends AuditavelAbstrato<Credencial, BigInteger> {
 	@Column(name = "data_vencimento")
 	private LocalDate dataVencimento;
 
-	@Column(name = "montante_pago")
-	@Min(value = 0)
-	@NotNull
-	private BigDecimal montantePago = BigDecimal.ZERO;
+	@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
+	@OneToMany(
+			cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+			fetch = FetchType.EAGER,
+			mappedBy = "ordem"
+	)
+	@Valid
+	private Set<MovimentacaoContaReceber> movimentacoes;
 
 	@Column(name = "numero_parcela")
 	@Min(value = 0)
@@ -58,11 +67,6 @@ public class ContaReceber extends AuditavelAbstrato<Credencial, BigInteger> {
 	@NotNull
 	@Valid
 	private Pessoa sacado;
-
-	@Column(name = "saldo_devedor")
-	@Min(value = 0)
-	@NotNull
-	private BigDecimal saldoDevedor;
 
 	@Enumerated(value = EnumType.STRING)
 	@NotNull
