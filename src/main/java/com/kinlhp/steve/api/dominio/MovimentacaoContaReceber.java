@@ -17,7 +17,8 @@ import java.math.BigInteger;
 @Entity(name = "movimentacao_conta_receber")
 @Getter
 @Setter
-public class MovimentacaoContaReceber extends AuditavelAbstrato<Credencial, BigInteger> {
+public class MovimentacaoContaReceber
+		extends AuditavelAbstrato<Credencial, BigInteger> {
 
 	private static final long serialVersionUID = 634408193603801989L;
 
