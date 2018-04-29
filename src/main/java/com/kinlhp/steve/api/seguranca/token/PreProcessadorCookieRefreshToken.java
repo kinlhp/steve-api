@@ -41,7 +41,7 @@ public class PreProcessadorCookieRefreshToken implements Filter, Serializable {
 	}
 
 	@Override
-	public void init(FilterConfig filterConfig) {
+	public void init(FilterConfig filterConfig) throws ServletException {
 		/*
 		 */
 	}
