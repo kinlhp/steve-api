@@ -43,7 +43,7 @@ public class ContaReceber extends AuditavelAbstrato<Credencial, BigInteger> {
 	@OneToMany(
 			cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
 			fetch = FetchType.EAGER,
-			mappedBy = "ordem"
+			mappedBy = "conta_receber"
 	)
 	@Valid
 	private Set<MovimentacaoContaReceber> movimentacoes;
