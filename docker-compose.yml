@@ -1,0 +1,16 @@
+version: "3.6"
+services:
+
+  db:
+    image: mysql:5.7
+    container_name: <NAME>
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=<PASSWORD>
+      - MYSQL_DATABASE=<SCHEMA>
+      - MYSQL_USER=<USER>
+      - MYSQL_PASSWORD=<PASSWORD>
+    ports:
+      - <POORT>:3306
+    volumes:
+      - .:/var/lib/mysql
