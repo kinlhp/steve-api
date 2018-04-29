@@ -41,7 +41,7 @@ public class PreProcessadorCookieRefreshToken implements Filter, Serializable {
 	}
 
 	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
+	public void init(FilterConfig filterConfig) {
 		/*
 		 */
 	}
@@ -81,7 +81,7 @@ public class PreProcessadorCookieRefreshToken implements Filter, Serializable {
 				.filter(p -> OAuth2AccessToken.REFRESH_TOKEN.equals(p.getName()))
 				.findFirst()
 				.orElseThrow(() -> {
-					OAuth2Exception e = new InvalidTokenException("Cannot convert access token to JSON");
+					OAuth2Exception e = new InvalidTokenException("Refresh token was not recognised");
 					e.addAdditionalInformation(OAuth2Exception.ERROR, OAuth2Exception.INVALID_TOKEN);
 					e.addAdditionalInformation(OAuth2Exception.DESCRIPTION, e.getMessage());
 					return e;
