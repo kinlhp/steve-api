@@ -1,15 +1,19 @@
 package com.kinlhp.steve.api.dominio;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -18,13 +22,14 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.Set;
 
 @Entity(name = "conta_pagar")
 @Getter
 @Setter
 public class ContaPagar extends AuditavelAbstrato<Credencial, BigInteger> {
 
-	private static final long serialVersionUID = -2883253148931159796L;
+	private static final long serialVersionUID = 4711639240567561818L;
 
 	@JoinColumn(name = "cedente")
 	@ManyToOne
@@ -47,10 +52,14 @@ public class ContaPagar extends AuditavelAbstrato<Credencial, BigInteger> {
 	@NotNull
 	private YearMonth mesReferente;
 
-	@Column(name = "montante_pago")
-	@Min(value = 0)
-	@NotNull
-	private BigDecimal montantePago;
+	@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
+	@OneToMany(
+			cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+			fetch = FetchType.EAGER,
+			mappedBy = "conta_pagar"
+	)
+	@Valid
+	private Set<MovimentacaoContaPagar> movimentacoes;
 
 	@Column(name = "numero_parcela")
 	@Min(value = 0)
@@ -59,11 +68,6 @@ public class ContaPagar extends AuditavelAbstrato<Credencial, BigInteger> {
 
 	@Size(max = 256)
 	private String observacao;
-
-	@Column(name = "saldo_devedor")
-	@Min(value = 0)
-	@NotNull
-	private BigDecimal saldoDevedor;
 
 	@Enumerated(value = EnumType.STRING)
 	@NotNull
