@@ -9,7 +9,7 @@ public abstract class ValidacaoTelefone extends ValidavelAbstrato<Telefone> {
 
 	/**
 	 * {@link com.kinlhp.steve.api.dominio.Credencial} sem {@link com.kinlhp.steve.api.dominio.Permissao} de {@link com.kinlhp.steve.api.dominio.Permissao.Descricao#ADMINISTRADOR}
-	 * não pode incluir {@link Telefone} em {@link com.kinlhp.steve.api.dominio.Pessoa} com perfil de usuário
+	 * não pode incluir, ou alterar, {@link Telefone} em {@link com.kinlhp.steve.api.dominio.Pessoa} com perfil de usuário
 	 */
 	protected void validarPessoa() {
 		if (super.dominio.getPessoa() != null
