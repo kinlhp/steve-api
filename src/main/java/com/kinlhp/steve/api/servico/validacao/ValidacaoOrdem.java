@@ -30,6 +30,7 @@ public abstract class ValidacaoOrdem extends ValidavelAbstrato<Ordem> {
 			if (!Ordem.Situacao.ABERTO.equals(super.dominio.getSituacao())) {
 				if (!CollectionUtils.isEmpty(super.dominio.getItens())
 						&& super.dominio.getItens().stream().filter(p -> ItemOrdemServico.Situacao.ABERTO.equals(p.getSituacao())).count() > 0) {
+					// TODO: 4/30/18 implementar internacionalizacao
 					super.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Ordem com item em situação aberto não pode ser alterado");
 				}
 				if (Ordem.Situacao.CANCELADO.equals(super.dominio.getSituacao())) {
