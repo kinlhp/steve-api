@@ -7,6 +7,7 @@ import com.kinlhp.steve.api.dominio.Ordem;
 import com.kinlhp.steve.api.dominio.Permissao;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoOrdem;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.Errors;
 
 import java.io.IOException;
@@ -49,16 +50,26 @@ public class ValidacaoAlteracaoOrdem extends ValidacaoOrdem {
 			final Ordem.Situacao situacao = jsonParser.getCodec()
 					.readValue(jsonParser, Ordem.Situacao.class);
 			if (registroInalterado.getId() != null && situacao != null) {
-				if (!Ordem.Situacao.ABERTO.equals(registroInalterado.getSituacao())
-						&& !Ordem.Situacao.FINALIZADO.equals(registroInalterado.getSituacao())) {
-					// TODO: 4/7/18 implementar internacionalizacao
-					verificarPermissao(Permissao.Descricao.ADMINISTRADOR, "Somente usuário administrador pode alterar ordem em situação cancelado ou gerado");
-				} else if (Ordem.Situacao.FINALIZADO.equals(registroInalterado.getSituacao())) {
-					if (!registroInalterado.getSituacao().equals(situacao)
+				if (!registroInalterado.getSituacao().equals(situacao)) {
+					if (!CollectionUtils.isEmpty(registroInalterado.getContasReceber())) {
+						// TODO: 4/29/18 implementar internacionalizacao
+						ValidacaoAlteracaoOrdem.this
+								.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Ordem com conta a receber não pode ser alterado");
+					} else if (Ordem.Situacao.GERADO.equals(registroInalterado.getSituacao())) {
+						// TODO: 4/29/18 implementar internacionalizacao
+						ValidacaoAlteracaoOrdem.this
+								.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Ordem em situação gerado não pode ser alterado");
+					} else if (Ordem.Situacao.CANCELADO.equals(registroInalterado.getSituacao())) {
+						// TODO: 4/7/18 implementar internacionalizacao
+						ValidacaoAlteracaoOrdem.this
+								.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
+										"Somente usuário administrador pode alterar ordem em situação cancelado");
+					} else if (Ordem.Situacao.FINALIZADO.equals(registroInalterado.getSituacao())
 							&& Ordem.Situacao.ABERTO.equals(situacao)) {
 						// TODO: 4/8/18 implementar internacionalizacao
-						verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
-								"Somente usuário administrador pode reabrir " + ValidacaoAlteracaoOrdem.super.dominio.getTipo().getDescricao().toLowerCase(Locale.ROOT));
+						ValidacaoAlteracaoOrdem.this
+								.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
+										"Somente usuário administrador pode reabrir " + ValidacaoAlteracaoOrdem.super.dominio.getTipo().getDescricao().toLowerCase(Locale.ROOT));
 					}
 				}
 			}

@@ -24,13 +24,22 @@ import java.util.Set;
 @Setter
 public class Ordem extends AuditavelAbstrato<Credencial, BigInteger> {
 
-	private static final long serialVersionUID = -5398839548743943291L;
+	private static final long serialVersionUID = 7210615534618372587L;
 
 	@JoinColumn(name = "cliente")
 	@ManyToOne
 	@NotNull
 	@Valid
 	private Pessoa cliente;
+
+	@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
+	@OneToMany(
+			cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+			fetch = FetchType.EAGER,
+			mappedBy = "ordem"
+	)
+	@Valid
+	private Set<ContaReceber> contasReceber;
 
 	@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 	@OneToMany(
