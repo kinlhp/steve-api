@@ -19,7 +19,7 @@ public abstract class ValidacaoPessoa extends ValidavelAbstrato<Pessoa> {
 			LocalDate data = super.dominio.getAberturaNascimento();
 			if (LocalDate.now().until(data, ChronoUnit.DAYS) > 0) {
 				// TODO: 3/21/18 implementar internacionalização
-				super.erros.rejectValue("aberturaNascimento", "aberturaNascimento.invalid", "Atributo \"aberturaNascimento\" inválido");
+				super.erros.rejectValue("aberturaNascimento", "aberturaNascimento.invalid", "Atributo \"aberturaNascimento\" inválido: Data futura não é permitido");
 			}
 		}
 	}
@@ -70,7 +70,7 @@ public abstract class ValidacaoPessoa extends ValidavelAbstrato<Pessoa> {
 
 	/**
 	 * {@link com.kinlhp.steve.api.dominio.Credencial} sem {@link com.kinlhp.steve.api.dominio.Permissao} de {@link com.kinlhp.steve.api.dominio.Permissao.Descricao#ADMINISTRADOR}
-	 * não pode incluir {@link Pessoa} com perfil de usuário
+	 * não pode incluir, ou alterar, {@link Pessoa} com perfil de usuário
 	 */
 	protected void validarPerfilUsuario() {
 		if (super.dominio.isPerfilUsuario()) {
