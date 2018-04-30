@@ -35,7 +35,7 @@ public class ValidacaoAlteracaoOrdem extends ValidacaoOrdem {
 		validarSituacao();
 	}
 
-	// TODO: 4/7/18 corrigir essa gambiarra e continuar não permitindo que um usuário não administrador altere a situação de uma ordem de serviço para uma situação inconsistente
+	// TODO: 4/7/18 corrigir essa gambiarra e continuar não permitindo que um usuário não administrador altere a situação da ordem de serviço para uma situação inconsistente
 	@Component
 	public final class ValidacaoAlteracaoSituacao
 			extends JsonDeserializer<Ordem.Situacao> implements Serializable {
@@ -75,6 +75,32 @@ public class ValidacaoAlteracaoOrdem extends ValidacaoOrdem {
 				}
 			}
 			return situacao;
+		}
+	}
+
+	// TODO: 4/30/18 corrigir essa gambiarra e continuar não permitindo que um usuário não administrador altere o tipo da ordem de serviço para um tipo inconsistente
+	@Component
+	public final class ValidacaoAlteracaoTipo
+			extends JsonDeserializer<Ordem.Tipo> implements Serializable {
+
+		private static final long serialVersionUID = 5382630059843672502L;
+
+		@Override
+		public Ordem.Tipo deserialize(JsonParser jsonParser,
+		                              DeserializationContext deserializationContext)
+				throws IOException, JsonProcessingException {
+			final Ordem registroInalterado = (Ordem) jsonParser
+					.getCurrentValue();
+			final Ordem.Tipo tipo = jsonParser.getCodec()
+					.readValue(jsonParser, Ordem.Tipo.class);
+			if (registroInalterado.getId() != null && tipo != null) {
+				if (Ordem.Tipo.ORDEM_SERVICO.equals(registroInalterado.getTipo())
+						&& Ordem.Tipo.ORCAMENTO.equals(tipo)) {
+					ValidacaoAlteracaoOrdem.this
+							.erros.rejectValue("tipo", "tipo.invalid", "Atributo \"tipo\" inválido: Ordem não pode ser revertido em orçamento");
+				}
+			}
+			return tipo;
 		}
 	}
 }

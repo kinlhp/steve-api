@@ -1,6 +1,8 @@
 package com.kinlhp.steve.api.dominio;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.kinlhp.steve.api.servico.validacao.alteracao.ValidacaoAlteracaoOrdem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -54,10 +56,12 @@ public class Ordem extends AuditavelAbstrato<Credencial, BigInteger> {
 	private String observacao;
 
 	@Enumerated(value = EnumType.STRING)
+	@JsonDeserialize(using = ValidacaoAlteracaoOrdem.ValidacaoAlteracaoSituacao.class)
 	@NotNull
 	private Situacao situacao = Situacao.ABERTO;
 
 	@Enumerated(value = EnumType.STRING)
+	@JsonDeserialize(using = ValidacaoAlteracaoOrdem.ValidacaoAlteracaoTipo.class)
 	@NotNull
 	private Tipo tipo = Tipo.ORDEM_SERVICO;
 
