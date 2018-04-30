@@ -1,6 +1,7 @@
 package com.kinlhp.steve.api.servico.validacao.alteracao;
 
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.kinlhp.steve.api.dominio.Permissao;
@@ -44,7 +45,7 @@ public class ValidacaoAlteracaoPessoa extends ValidacaoPessoa {
 		@Override
 		public Boolean deserialize(JsonParser jsonParser,
 		                           DeserializationContext deserializationContext)
-				throws IOException {
+				throws IOException, JsonProcessingException {
 			final Pessoa registroInalterado = (Pessoa) jsonParser
 					.getCurrentValue();
 			final boolean perfilUsuario = jsonParser.getBooleanValue();
