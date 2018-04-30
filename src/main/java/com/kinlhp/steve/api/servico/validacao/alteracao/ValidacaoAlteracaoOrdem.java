@@ -1,6 +1,7 @@
 package com.kinlhp.steve.api.servico.validacao.alteracao;
 
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.kinlhp.steve.api.dominio.Ordem;
@@ -44,7 +45,7 @@ public class ValidacaoAlteracaoOrdem extends ValidacaoOrdem {
 		@Override
 		public Ordem.Situacao deserialize(JsonParser jsonParser,
 		                                  DeserializationContext deserializationContext)
-				throws IOException {
+				throws IOException, JsonProcessingException {
 			final Ordem registroInalterado = (Ordem) jsonParser
 					.getCurrentValue();
 			final Ordem.Situacao situacao = jsonParser.getCodec()

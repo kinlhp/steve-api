@@ -1,7 +1,9 @@
 package com.kinlhp.steve.api.servico.validacao;
 
+import com.kinlhp.steve.api.dominio.ItemOrdemServico;
 import com.kinlhp.steve.api.dominio.Ordem;
 import com.kinlhp.steve.api.dominio.Permissao;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigInteger;
 import java.util.Locale;
@@ -25,9 +27,15 @@ public abstract class ValidacaoOrdem extends ValidavelAbstrato<Ordem> {
 			if (Ordem.Tipo.ORCAMENTO.equals(super.dominio.getTipo())) {
 				validarSituacaoOrcamento();
 			}
-			if (Ordem.Situacao.CANCELADO.equals(super.dominio.getSituacao())) {
-				// TODO: 4/7/18 implementar internacionalizacao
-				verificarPermissao(Permissao.Descricao.ADMINISTRADOR, "Somente usuário administrador pode definir ordem com situação cancelado");
+			if (!Ordem.Situacao.ABERTO.equals(super.dominio.getSituacao())) {
+				if (!CollectionUtils.isEmpty(super.dominio.getItens())
+						&& super.dominio.getItens().stream().filter(p -> ItemOrdemServico.Situacao.ABERTO.equals(p.getSituacao())).count() > 0) {
+					super.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Ordem com item em situação aberto não pode ser alterado");
+				}
+				if (Ordem.Situacao.CANCELADO.equals(super.dominio.getSituacao())) {
+					// TODO: 4/7/18 implementar internacionalizacao
+					verificarPermissao(Permissao.Descricao.ADMINISTRADOR, "Somente usuário administrador pode definir ordem com situação cancelado");
+				}
 			}
 		}
 	}
