@@ -20,7 +20,12 @@ import java.math.BigInteger;
 public class MovimentacaoContaPagar
 		extends AuditavelAbstrato<Credencial, BigInteger> {
 
-	private static final long serialVersionUID = -7214470250818445703L;
+	private static final long serialVersionUID = 1438291078499710175L;
+
+	@Column(name = "base_calculo")
+	@Min(value = 0)
+	@NotNull
+	private BigDecimal baseCalculo = BigDecimal.ZERO;
 
 	@JoinColumn(name = "condicao_pagamento")
 	@ManyToOne
@@ -39,6 +44,8 @@ public class MovimentacaoContaPagar
 	@NotNull
 	private BigDecimal descontoConcedido = BigDecimal.ZERO;
 
+	private boolean estornado;
+
 	@Column(name = "juro_aplicado")
 	@Min(value = 0)
 	@NotNull
@@ -47,7 +54,13 @@ public class MovimentacaoContaPagar
 	@Size(max = 256)
 	private String observacao;
 
+	@Column(name = "saldo_devedor")
 	@Min(value = 0)
 	@NotNull
-	private BigDecimal valor;
+	private BigDecimal saldoDevedor = BigDecimal.ZERO;
+
+	@Column(name = "valor_pago")
+	@Min(value = 0)
+	@NotNull
+	private BigDecimal valorPago;
 }

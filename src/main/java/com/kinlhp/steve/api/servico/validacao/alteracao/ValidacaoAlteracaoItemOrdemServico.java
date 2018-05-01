@@ -75,8 +75,7 @@ public class ValidacaoAlteracaoItemOrdemServico
 				throws IOException, JsonProcessingException {
 			final ItemOrdemServico registroInalterado = (ItemOrdemServico) jsonParser
 					.getCurrentValue();
-			final BigDecimal valorServico = jsonParser.getCodec()
-					.readValue(jsonParser, BigDecimal.class);
+			final BigDecimal valorServico = jsonParser.getDecimalValue();
 			if (registroInalterado.getId() != null && valorServico != null) {
 				if (!ItemOrdemServico.Situacao.ABERTO.equals(registroInalterado.getSituacao())
 						&& registroInalterado.getValorServico().compareTo(valorServico) != 0) {
