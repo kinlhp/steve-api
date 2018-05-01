@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.kinlhp.steve.api.dominio.CondicaoPagamento;
 import com.kinlhp.steve.api.dominio.ContaReceber;
 import com.kinlhp.steve.api.dominio.Permissao;
 import com.kinlhp.steve.api.dominio.Pessoa;
@@ -20,6 +21,8 @@ import java.time.temporal.ChronoUnit;
 @Component(value = "beforeSaveContaReceber")
 public class ValidacaoAlteracaoContaReceber extends ValidacaoContaReceber {
 
+	private static final long serialVersionUID = 2556192058902253319L;
+
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return ContaReceber.class.equals(clazz);
@@ -33,6 +36,32 @@ public class ValidacaoAlteracaoContaReceber extends ValidacaoContaReceber {
 		// TODO: 4/30/18 implementar design pattern que resolva essa má prática
 		validarOrdem();
 		validarSituacao();
+	}
+
+	@Component
+	public final class ValidacaoAlteracaoCondicaoPagamento
+			extends JsonDeserializer<CondicaoPagamento> implements Serializable {
+
+		private static final long serialVersionUID = 3021051904802418809L;
+
+		@Override
+		public CondicaoPagamento deserialize(JsonParser jsonParser,
+		                                     DeserializationContext deserializationContext)
+				throws IOException, JsonProcessingException {
+			final ContaReceber registroInalterado = (ContaReceber) jsonParser
+					.getCurrentValue();
+			final CondicaoPagamento condicaoPagamento = jsonParser.getCodec()
+					.readValue(jsonParser, CondicaoPagamento.class);
+			if (registroInalterado.getId() != null && condicaoPagamento != null) {
+				if (!registroInalterado.getCondicaoPagamento().equals(condicaoPagamento)) {
+					// TODO: 5/1/18 implementar internacionalizacao
+					ValidacaoAlteracaoContaReceber.this
+							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
+									"Atributo \"condicaoPagamento\" inválido: Somente usuário administrador pode alterar condição de pagamento");
+				}
+			}
+			return condicaoPagamento;
+		}
 	}
 
 	@Component
@@ -87,28 +116,28 @@ public class ValidacaoAlteracaoContaReceber extends ValidacaoContaReceber {
 		}
 	}
 
-	@Component
-	public final class ValidacaoAlteracaoSituacao
-			extends JsonDeserializer<ContaReceber.Situacao>
-			implements Serializable {
-
-		private static final long serialVersionUID = 4462880505868022619L;
-
-		@Override
-		public ContaReceber.Situacao deserialize(JsonParser jsonParser,
-		                                         DeserializationContext deserializationContext)
-				throws IOException, JsonProcessingException {
-			final ContaReceber registroInalterado = (ContaReceber) jsonParser
-					.getCurrentValue();
-			final ContaReceber.Situacao situacao = jsonParser.getCodec()
-					.readValue(jsonParser, ContaReceber.Situacao.class);
-			if (registroInalterado.getId() != null && situacao != null) {
-				/*
-				 */
-			}
-			return situacao;
-		}
-	}
+//	@Component
+//	public final class ValidacaoAlteracaoSituacao
+//			extends JsonDeserializer<ContaReceber.Situacao>
+//			implements Serializable {
+//
+//		private static final long serialVersionUID = 4462880505868022619L;
+//
+//		@Override
+//		public ContaReceber.Situacao deserialize(JsonParser jsonParser,
+//		                                         DeserializationContext deserializationContext)
+//				throws IOException, JsonProcessingException {
+//			final ContaReceber registroInalterado = (ContaReceber) jsonParser
+//					.getCurrentValue();
+//			final ContaReceber.Situacao situacao = jsonParser.getCodec()
+//					.readValue(jsonParser, ContaReceber.Situacao.class);
+//			if (registroInalterado.getId() != null && situacao != null) {
+//				/*
+//				 */
+//			}
+//			return situacao;
+//		}
+//	}
 
 	@Component
 	public final class ValidacaoAlteracaoValor

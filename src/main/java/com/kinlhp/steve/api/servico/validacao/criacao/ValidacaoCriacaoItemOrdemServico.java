@@ -5,6 +5,9 @@ import com.kinlhp.steve.api.servico.validacao.ValidacaoItemOrdemServico;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 @Component(value = "beforeCreateItemOrdemServico")
 public class ValidacaoCriacaoItemOrdemServico
 		extends ValidacaoItemOrdemServico {
@@ -23,5 +26,15 @@ public class ValidacaoCriacaoItemOrdemServico
 
 		// TODO: 4/29/18 implementar design pattern que resolva essa má prática
 		validarDataFinalizacaoPrevista();
+	}
+
+	private void validarDataFinalizacaoPrevista() {
+		if (super.dominio.getDataFinalizacaoPrevista() != null) {
+			final LocalDate data = super.dominio.getDataFinalizacaoPrevista();
+			if (LocalDate.now().until(data, ChronoUnit.DAYS) < 0) {
+				// TODO: 5/1/18 implementar internacionalizacao
+				super.erros.rejectValue("dataFinalizacaoPrevista", "dataFinalizacaoPrevista.invalid", "Atributo \"dataFinalizacaoPrevista\" inválido: Somente data futura é permitido");
+			}
+		}
 	}
 }

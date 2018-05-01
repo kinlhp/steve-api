@@ -5,23 +5,11 @@ import com.kinlhp.steve.api.dominio.Ordem;
 import com.kinlhp.steve.api.dominio.Permissao;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 public abstract class ValidacaoContaReceber
 		extends ValidavelAbstrato<ContaReceber> {
 
-	private static final long serialVersionUID = 5963001361937877233L;
-
-	protected void validarDataVencimento() {
-		if (super.dominio.getDataVencimento() != null) {
-			LocalDate data = super.dominio.getDataVencimento();
-			if (LocalDate.now().until(data, ChronoUnit.DAYS) < 0) {
-				// TODO: 5/1/18 implementar internacionalizacao
-				super.erros.rejectValue("dataVencimento", "dataVencimento.invalid", "Atributo \"dataVencimento\" inválido: Somente data futura é permitido");
-			}
-		}
-	}
+	private static final long serialVersionUID = 727775664605905447L;
 
 	protected void validarOrdem() {
 		if (super.dominio.getOrdem() != null) {

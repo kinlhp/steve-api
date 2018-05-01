@@ -13,6 +13,7 @@ import org.springframework.validation.Errors;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Component(value = "beforeSaveItemOrdemServico")
 public class ValidacaoAlteracaoItemOrdemServico
@@ -29,9 +30,32 @@ public class ValidacaoAlteracaoItemOrdemServico
 	public void validate(Object object, Errors errors) {
 		super.dominio = (ItemOrdemServico) object;
 		super.erros = errors;
+	}
 
-		// TODO: 4/29/18 implementar design pattern que resolva essa má prática
-		validarDataFinalizacaoPrevista();
+	@Component
+	public final class ValidacaoAlteracaoDataFinalizacaoPrevista
+			extends JsonDeserializer<LocalDate> implements Serializable {
+
+		private static final long serialVersionUID = -8157638132687101075L;
+
+		@Override
+		public LocalDate deserialize(JsonParser jsonParser,
+		                             DeserializationContext deserializationContext)
+				throws IOException, JsonProcessingException {
+			final ItemOrdemServico registroInalterado = (ItemOrdemServico) jsonParser
+					.getCurrentValue();
+			final LocalDate dataFinalizacaoPrevista = jsonParser.getCodec()
+					.readValue(jsonParser, LocalDate.class);
+			if (registroInalterado.getId() != null
+					&& registroInalterado.getDataFinalizacaoPrevista() != null) {
+				if (!registroInalterado.getDataFinalizacaoPrevista().equals(dataFinalizacaoPrevista)) {
+					// TODO: 5/1/18 implementar internacionalizacao
+					ValidacaoAlteracaoItemOrdemServico.this
+							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR, "Atributo \"dataFinalizacaoPrevista\" inválido: Somente usuário administrador pode alterar data de finalização prevista");
+				}
+			}
+			return dataFinalizacaoPrevista;
+		}
 	}
 
 	// TODO: 4/30/18 corrigir essa gambiarra e continuar não permitindo que um usuário não administrador altere a situação do item da ordem de serviço para uma situação inconsistente
@@ -55,7 +79,7 @@ public class ValidacaoAlteracaoItemOrdemServico
 					// TODO: 4/30/18 implementar internacionalizacao
 					ValidacaoAlteracaoItemOrdemServico.this
 							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
-									"Atributo \"situação\" inválido: Somente usuário administrador pode alterar item cancelado ou finalizado");
+									"Atributo \"situação\" inválido: Somente usuário administrador pode alterar situação de item cancelado ou finalizado");
 				}
 			}
 			return situacao;
@@ -82,7 +106,7 @@ public class ValidacaoAlteracaoItemOrdemServico
 					// TODO: 4/30/18 implementar internacionalizacao
 					ValidacaoAlteracaoItemOrdemServico.this
 							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
-									"Atributo \"valorServico\" inválido: Somente usuário administrador pode alterar item cancelado ou finalizado");
+									"Atributo \"valorServico\" inválido: Somente usuário administrador pode alterar valor do serviço de item cancelado ou finalizado");
 				}
 			}
 			return valorServico;

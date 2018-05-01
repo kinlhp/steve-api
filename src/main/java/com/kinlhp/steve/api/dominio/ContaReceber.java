@@ -36,6 +36,10 @@ public class ContaReceber extends AuditavelAbstrato<Credencial, BigInteger> {
 	private static final long serialVersionUID = -7115621384931195115L;
 
 	@JoinColumn(name = "condicao_pagamento")
+	@JsonDeserialize(
+			using = ValidacaoAlteracaoContaReceber
+					.ValidacaoAlteracaoCondicaoPagamento.class
+	)
 	@ManyToOne
 	@NotNull
 	@Valid
@@ -82,10 +86,10 @@ public class ContaReceber extends AuditavelAbstrato<Credencial, BigInteger> {
 	private Pessoa sacado;
 
 	@Enumerated(value = EnumType.STRING)
-	@JsonDeserialize(
-			using = ValidacaoAlteracaoContaReceber
-					.ValidacaoAlteracaoSituacao.class
-	)
+//	@JsonDeserialize(
+//			using = ValidacaoAlteracaoContaReceber
+//					.ValidacaoAlteracaoSituacao.class
+//	)
 	@NotNull
 	private Situacao situacao = Situacao.ABERTO;
 
@@ -114,7 +118,7 @@ public class ContaReceber extends AuditavelAbstrato<Credencial, BigInteger> {
 				.filter(p -> !p.isEstornado())
 				.max(Comparator.comparing(MovimentacaoContaReceber::getDataCriacao))
 				// TODO: 5/1/18 implementar internacionalizacao
-				.orElseThrow(() -> new NoSuchElementException("Não foi possível obter movimentação de conta a receber mais recente"));
+				.orElseThrow(() -> new NoSuchElementException("Não foi possível obter movimentação mais recente de conta a receber"));
 		return BigDecimal.ZERO.compareTo(movimentacaoMaisRecente.getSaldoDevedor()) > 0;
 	}
 

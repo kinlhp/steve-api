@@ -29,6 +29,10 @@ public class ItemOrdemServico
 	private static final long serialVersionUID = -2325486476898097310L;
 
 	@Column(name = "data_finalizacao_prevista")
+	@JsonDeserialize(
+			using = ValidacaoAlteracaoItemOrdemServico
+					.ValidacaoAlteracaoDataFinalizacaoPrevista.class
+	)
 	private LocalDate dataFinalizacaoPrevista;
 
 	@Size(max = 1024)

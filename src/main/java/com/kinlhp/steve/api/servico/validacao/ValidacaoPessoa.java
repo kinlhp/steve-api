@@ -16,7 +16,7 @@ public abstract class ValidacaoPessoa extends ValidavelAbstrato<Pessoa> {
 
 	protected void validarAberturaNascimento() {
 		if (super.dominio.getAberturaNascimento() != null) {
-			LocalDate data = super.dominio.getAberturaNascimento();
+			final LocalDate data = super.dominio.getAberturaNascimento();
 			if (LocalDate.now().until(data, ChronoUnit.DAYS) > 0) {
 				// TODO: 3/21/18 implementar internacionalização
 				super.erros.rejectValue("aberturaNascimento", "aberturaNascimento.invalid", "Atributo \"aberturaNascimento\" inválido: Data futura não é permitido");
@@ -24,7 +24,7 @@ public abstract class ValidacaoPessoa extends ValidavelAbstrato<Pessoa> {
 		}
 	}
 
-	private boolean isCnpjValido(String cnpj) {
+	private boolean isCnpjValido(final String cnpj) {
 		try {
 			new CNPJValidator().assertValid(cnpj);
 		} catch (InvalidStateException e) {
@@ -33,7 +33,7 @@ public abstract class ValidacaoPessoa extends ValidavelAbstrato<Pessoa> {
 		return true;
 	}
 
-	private boolean isCpfValido(String cpf) {
+	private boolean isCpfValido(final String cpf) {
 		try {
 			new CPFValidator().assertValid(cpf);
 		} catch (InvalidStateException e) {
