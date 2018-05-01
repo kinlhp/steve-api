@@ -56,12 +56,16 @@ public class Ordem extends AuditavelAbstrato<Credencial, BigInteger> {
 	private String observacao;
 
 	@Enumerated(value = EnumType.STRING)
-	@JsonDeserialize(using = ValidacaoAlteracaoOrdem.ValidacaoAlteracaoSituacao.class)
+	@JsonDeserialize(
+			using = ValidacaoAlteracaoOrdem.ValidacaoAlteracaoSituacao.class
+	)
 	@NotNull
 	private Situacao situacao = Situacao.ABERTO;
 
 	@Enumerated(value = EnumType.STRING)
-	@JsonDeserialize(using = ValidacaoAlteracaoOrdem.ValidacaoAlteracaoTipo.class)
+	@JsonDeserialize(
+			using = ValidacaoAlteracaoOrdem.ValidacaoAlteracaoTipo.class
+	)
 	@NotNull
 	private Tipo tipo = Tipo.ORDEM_SERVICO;
 

@@ -31,11 +31,12 @@ public abstract class ValidacaoOrdem extends ValidavelAbstrato<Ordem> {
 				if (!CollectionUtils.isEmpty(super.dominio.getItens())
 						&& super.dominio.getItens().stream().filter(p -> ItemOrdemServico.Situacao.ABERTO.equals(p.getSituacao())).count() > 0) {
 					// TODO: 4/30/18 implementar internacionalizacao
-					super.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Ordem com item em situação aberto não pode ser alterado");
+					super.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Ordem com item aberto não pode ser " + super.dominio.getSituacao().getDescricao().toLowerCase(Locale.ROOT));
 				}
 				if (Ordem.Situacao.CANCELADO.equals(super.dominio.getSituacao())) {
 					// TODO: 4/7/18 implementar internacionalizacao
-					verificarPermissao(Permissao.Descricao.ADMINISTRADOR, "Somente usuário administrador pode definir ordem com situação cancelado");
+					super.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
+							"Atributo \"situacao\" inválido: Somente usuário administrador pode cancelar " + super.dominio.getTipo().getDescricao().toLowerCase(Locale.ROOT));
 				}
 			}
 		}
@@ -45,7 +46,7 @@ public abstract class ValidacaoOrdem extends ValidavelAbstrato<Ordem> {
 		if (!Ordem.Situacao.ABERTO.equals(super.dominio.getSituacao())
 				&& !Ordem.Situacao.CANCELADO.equals(super.dominio.getSituacao())) {
 			// TODO: 4/7/18 implementar internacionalizacao
-			super.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Orçamento pode estar somente em aberto ou cancelado");
+			super.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Orçamento deve ser aberto ou cancelado");
 		}
 	}
 }

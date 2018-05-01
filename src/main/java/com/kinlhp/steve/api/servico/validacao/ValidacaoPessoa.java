@@ -47,11 +47,11 @@ public abstract class ValidacaoPessoa extends ValidavelAbstrato<Pessoa> {
 			if (Pessoa.Tipo.FISICA.equals(super.dominio.getTipo())
 					&& !isCpfValido(super.dominio.getCnpjCpf())) {
 				// TODO: 3/27/18 implementar internacionalização
-				super.erros.rejectValue("cnpjCpf", "cnpjCpf.invalid", "Atributo \"cnpjCpf\" inválido");
+				super.erros.rejectValue("cnpjCpf", "cnpjCpf.invalid", "Atributo \"cnpjCpf\" inválido: CPF inválido");
 			} else if (Pessoa.Tipo.JURIDICA.equals(super.dominio.getTipo())
 					&& !isCnpjValido(super.dominio.getCnpjCpf())) {
 				// TODO: 3/27/18 implementar internacionalização
-				super.erros.rejectValue("cnpjCpf", "cnpjCpf.invalid", "Atributo \"cnpjCpf\" inválido");
+				super.erros.rejectValue("cnpjCpf", "cnpjCpf.invalid", "Atributo \"cnpjCpf\" inválido: CNPJ inválido");
 			}
 		}
 	}
@@ -63,7 +63,7 @@ public abstract class ValidacaoPessoa extends ValidavelAbstrato<Pessoa> {
 			if (super.dominio.getIeRg().chars().allMatch(Character::isLetter)
 					&& !"ISENTO".equals(super.dominio.getIeRg())) {
 				// TODO: 3/27/18 implementar internacionalização
-				super.erros.rejectValue("ieRg", "ieRg.invalid", "Atributo \"ieRg\" inválido");
+				super.erros.rejectValue("ieRg", "ieRg.invalid", "Atributo \"ieRg\" inválido: " + (Pessoa.Tipo.FISICA.equals(super.dominio.getTipo()) ? "RG" : "IE") + " inválido");
 			}
 		}
 	}
@@ -75,7 +75,8 @@ public abstract class ValidacaoPessoa extends ValidavelAbstrato<Pessoa> {
 	protected void validarPerfilUsuario() {
 		if (super.dominio.isPerfilUsuario()) {
 			// TODO: 4/5/18 implementar internacionalizacao
-			super.verificarPermissao(Permissao.Descricao.ADMINISTRADOR, "Somente usuário administrador pode definir pessoa com perfil de usuário");
+			super.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
+					"Somente usuário administrador pode definir pessoa com perfil de usuário");
 			if (super.dominio.getTipo() != null) {
 				if (Pessoa.Tipo.JURIDICA.equals(super.dominio.getTipo())) {
 					// TODO: 3/27/18 implementar internacionalizacao

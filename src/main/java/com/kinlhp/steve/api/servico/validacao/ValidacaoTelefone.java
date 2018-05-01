@@ -14,7 +14,8 @@ public abstract class ValidacaoTelefone extends ValidavelAbstrato<Telefone> {
 	protected void validarPessoa() {
 		if (super.dominio.getPessoa() != null
 				&& super.dominio.getPessoa().isPerfilUsuario()) {
-			super.verificarPermissao(Permissao.Descricao.ADMINISTRADOR);
+			super.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
+					"Atributo \"pessoa\" inválido: Somente usuário administrador pode definir telefone para pessoa com perfil de usuário");
 		}
 	}
 }

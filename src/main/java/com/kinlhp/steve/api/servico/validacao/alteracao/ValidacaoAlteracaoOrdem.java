@@ -52,25 +52,22 @@ public class ValidacaoAlteracaoOrdem extends ValidacaoOrdem {
 					.readValue(jsonParser, Ordem.Situacao.class);
 			if (registroInalterado.getId() != null && situacao != null) {
 				if (!registroInalterado.getSituacao().equals(situacao)) {
-					if (!CollectionUtils.isEmpty(registroInalterado.getContasReceber())) {
+					if (!CollectionUtils.isEmpty(registroInalterado.getContasReceber())
+							|| Ordem.Situacao.GERADO.equals(registroInalterado.getSituacao())) {
 						// TODO: 4/29/18 implementar internacionalizacao
 						ValidacaoAlteracaoOrdem.this
 								.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Ordem com conta a receber não pode ser alterado");
-					} else if (Ordem.Situacao.GERADO.equals(registroInalterado.getSituacao())) {
-						// TODO: 4/29/18 implementar internacionalizacao
-						ValidacaoAlteracaoOrdem.this
-								.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Ordem em situação gerado não pode ser alterado");
 					} else if (Ordem.Situacao.CANCELADO.equals(registroInalterado.getSituacao())) {
 						// TODO: 4/7/18 implementar internacionalizacao
 						ValidacaoAlteracaoOrdem.this
 								.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
-										"Somente usuário administrador pode alterar ordem em situação cancelado");
+										"Atributo \"situacao\" inválido: Somente usuário administrador pode alterar " + registroInalterado.getTipo().getDescricao().toLowerCase(Locale.ROOT) + " cancelado");
 					} else if (Ordem.Situacao.FINALIZADO.equals(registroInalterado.getSituacao())
 							&& Ordem.Situacao.ABERTO.equals(situacao)) {
 						// TODO: 4/8/18 implementar internacionalizacao
 						ValidacaoAlteracaoOrdem.this
 								.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
-										"Somente usuário administrador pode reabrir " + ValidacaoAlteracaoOrdem.super.dominio.getTipo().getDescricao().toLowerCase(Locale.ROOT));
+										"Atributo \"situacao\" inválido: Somente usuário administrador pode reabrir " + registroInalterado.getTipo().getDescricao().toLowerCase(Locale.ROOT));
 					}
 				}
 			}
@@ -96,6 +93,7 @@ public class ValidacaoAlteracaoOrdem extends ValidacaoOrdem {
 			if (registroInalterado.getId() != null && tipo != null) {
 				if (Ordem.Tipo.ORDEM_SERVICO.equals(registroInalterado.getTipo())
 						&& Ordem.Tipo.ORCAMENTO.equals(tipo)) {
+					// TODO: 4/30/18 implementar internacionalizacao
 					ValidacaoAlteracaoOrdem.this
 							.erros.rejectValue("tipo", "tipo.invalid", "Atributo \"tipo\" inválido: Ordem não pode ser revertido em orçamento");
 				}

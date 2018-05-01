@@ -1,5 +1,7 @@
 package com.kinlhp.steve.api.dominio;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.kinlhp.steve.api.servico.validacao.alteracao.ValidacaoAlteracaoItemOrdemServico;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +47,10 @@ public class ItemOrdemServico
 	private Servico servico;
 
 	@Enumerated(value = EnumType.STRING)
+	@JsonDeserialize(
+			using = ValidacaoAlteracaoItemOrdemServico
+					.ValidacaoAlteracaoSituacao.class
+	)
 	@NotNull
 	private Situacao situacao = Situacao.ABERTO;
 
@@ -54,6 +60,10 @@ public class ItemOrdemServico
 	private BigDecimal valorOrcamento = BigDecimal.ZERO;
 
 	@Column(name = "valor_servico")
+	@JsonDeserialize(
+			using = ValidacaoAlteracaoItemOrdemServico
+					.ValidacaoAlteracaoValorServico.class
+	)
 	@Min(value = 0)
 	@NotNull
 	private BigDecimal valorServico = BigDecimal.ZERO;

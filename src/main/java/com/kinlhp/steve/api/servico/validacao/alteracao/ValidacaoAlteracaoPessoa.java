@@ -53,7 +53,8 @@ public class ValidacaoAlteracaoPessoa extends ValidacaoPessoa {
 				if (registroInalterado.isPerfilUsuario() != perfilUsuario) {
 					// TODO: 4/5/18 implementar internacionalizacao
 					ValidacaoAlteracaoPessoa.this
-							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR, "Somente usuário administrador pode definir pessoa com perfil de usuário");
+							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
+									"Atributo \"perfilUsuario\" inválido: Somente usuário administrador pode alterar pessoa com perfil de usuário");
 				}
 			}
 			return perfilUsuario;

@@ -14,7 +14,8 @@ public abstract class ValidacaoEmail extends ValidavelAbstrato<Email> {
 	protected void validarPessoa() {
 		if (super.dominio.getPessoa() != null
 				&& super.dominio.getPessoa().isPerfilUsuario()) {
-			super.verificarPermissao(Permissao.Descricao.ADMINISTRADOR);
+			super.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
+					"Atributo \"pessoa\" inválido: Somente usuário administrador pode definir e-mail para pessoa com perfil de usuário");
 		}
 	}
 }
