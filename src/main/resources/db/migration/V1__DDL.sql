@@ -647,17 +647,19 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `steve`.`movimentacao_conta_receber` ;
 
-SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `steve`.`movimentacao_conta_receber` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `condicao_pagamento` SMALLINT UNSIGNED NOT NULL,
   `usuario_criacao` SMALLINT UNSIGNED NOT NULL,
   `usuario_ultima_alteracao` SMALLINT UNSIGNED NULL,
   `conta_receber` BIGINT UNSIGNED NOT NULL,
+  `estornado` BIT(1) NOT NULL DEFAULT b'0' COMMENT 'b\'0\'=Não\nb\'1\'=Sim',
   `versao` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `base_calculo` DECIMAL(9,2) UNSIGNED NOT NULL DEFAULT 0,
   `desconto_concedido` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT 0,
   `juro_aplicado` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT 0,
-  `valor` DECIMAL(9,2) UNSIGNED NOT NULL,
+  `saldo_devedor` DECIMAL(9,2) UNSIGNED NOT NULL DEFAULT 0,
+  `valor_pago` DECIMAL(9,2) UNSIGNED NOT NULL DEFAULT 0,
   `data_criacao` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `data_ultima_alteracao` TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `observacao` VARCHAR(256) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NULL,
@@ -696,17 +698,19 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `steve`.`movimentacao_conta_pagar` ;
 
-SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `steve`.`movimentacao_conta_pagar` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `condicao_pagamento` SMALLINT UNSIGNED NOT NULL,
   `usuario_criacao` SMALLINT UNSIGNED NOT NULL,
   `usuario_ultima_alteracao` SMALLINT UNSIGNED NULL,
   `conta_pagar` BIGINT UNSIGNED NOT NULL,
+  `estornado` BIT(1) NOT NULL DEFAULT b'0' COMMENT 'b\'0\'=Não\nb\'1\'=Sim',
   `versao` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `base_calculo` DECIMAL(9,2) UNSIGNED NOT NULL DEFAULT 0,
   `desconto_concedido` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT 0,
   `juro_aplicado` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT 0,
-  `valor` DECIMAL(9,2) UNSIGNED NOT NULL,
+  `saldo_devedor` DECIMAL(9,2) UNSIGNED NOT NULL DEFAULT 0,
+  `valor_pago` DECIMAL(9,2) UNSIGNED NOT NULL DEFAULT 0,
   `data_criacao` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `data_ultima_alteracao` TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `observacao` VARCHAR(256) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci' NULL,
