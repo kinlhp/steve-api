@@ -1,14 +1,14 @@
-package com.kinlhp.steve.api.servico.validacao.alteracao;
+package com.kinlhp.steve.api.servico.validacao.criacao.antes;
 
 import com.kinlhp.steve.api.dominio.Endereco;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoEndereco;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
-@Component(value = "beforeSaveEndereco")
-public class ValidacaoAlteracaoEndereco extends ValidacaoEndereco {
+@Component(value = "beforeCreateEndereco")
+public class ValidacaoCriacaoEndereco extends ValidacaoEndereco {
 
-	private static final long serialVersionUID = -4713438557763816219L;
+	private static final long serialVersionUID = 5871765876300306464L;
 
 	@Override
 	public boolean supports(Class<?> clazz) {

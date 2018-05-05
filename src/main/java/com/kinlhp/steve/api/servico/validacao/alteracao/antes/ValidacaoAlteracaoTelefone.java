@@ -1,4 +1,4 @@
-package com.kinlhp.steve.api.servico.validacao.alteracao;
+package com.kinlhp.steve.api.servico.validacao.alteracao.antes;
 
 import com.kinlhp.steve.api.dominio.Telefone;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoTelefone;

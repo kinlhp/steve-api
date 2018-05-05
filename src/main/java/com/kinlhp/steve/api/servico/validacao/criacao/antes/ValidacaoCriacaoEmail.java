@@ -1,14 +1,14 @@
-package com.kinlhp.steve.api.servico.validacao.alteracao;
+package com.kinlhp.steve.api.servico.validacao.criacao.antes;
 
 import com.kinlhp.steve.api.dominio.Email;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoEmail;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
-@Component(value = "beforeSaveEmail")
-public class ValidacaoAlteracaoEmail extends ValidacaoEmail {
+@Component(value = "beforeCreateEmail")
+public class ValidacaoCriacaoEmail extends ValidacaoEmail {
 
-	private static final long serialVersionUID = -1178798781721939434L;
+	private static final long serialVersionUID = 614876609609436154L;
 
 	@Override
 	public boolean supports(Class<?> clazz) {

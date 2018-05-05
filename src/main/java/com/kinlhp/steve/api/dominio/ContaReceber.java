@@ -2,7 +2,7 @@ package com.kinlhp.steve.api.dominio;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.kinlhp.steve.api.servico.validacao.alteracao.ValidacaoAlteracaoContaReceber;
+import com.kinlhp.steve.api.servico.validacao.alteracao.antes.ValidacaoAlteracaoContaReceber;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

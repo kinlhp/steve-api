@@ -1,7 +1,7 @@
 package com.kinlhp.steve.api.dominio;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.kinlhp.steve.api.servico.validacao.alteracao.ValidacaoAlteracaoItemOrdemServico;
+import com.kinlhp.steve.api.servico.validacao.alteracao.antes.ValidacaoAlteracaoItemOrdemServico;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

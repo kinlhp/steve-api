@@ -1,15 +1,15 @@
-package com.kinlhp.steve.api.servico.validacao.criacao;
+package com.kinlhp.steve.api.servico.validacao.alteracao.antes;
 
 import com.kinlhp.steve.api.dominio.PermissaoCredencial;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoPermissaoCredencial;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
-@Component(value = "beforeCreatePermissaoCredencial")
-public class ValidacaoCriacaoPermissaoCredencial
+@Component(value = "beforeSavePermissaoCredencial")
+public class ValidacaoAlteracaoPermissaoCredencial
 		extends ValidacaoPermissaoCredencial {
 
-	private static final long serialVersionUID = 4421594552057857512L;
+	private static final long serialVersionUID = 1121448404756908036L;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
