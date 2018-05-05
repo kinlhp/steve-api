@@ -27,8 +27,8 @@ public class ImplementacaoAuditoriaConsciente
 	public Credencial getCurrentAuditor() {
 		String usuario = SecurityContextHolder.getContext().getAuthentication()
 				.getName();
-		entityManager.setFlushMode(FlushModeType.COMMIT);
 		try {
+			entityManager.setFlushMode(FlushModeType.COMMIT);
 			return (Credencial) ((DetalhesUsuario) servicoDetalhesUsuario
 					.loadUserByUsername(usuario)).getAuditor();
 		} finally {
