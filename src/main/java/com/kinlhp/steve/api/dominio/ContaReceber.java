@@ -119,7 +119,7 @@ public class ContaReceber extends AuditavelAbstrato<Credencial, BigInteger> {
 				.max(Comparator.comparing(MovimentacaoContaReceber::getDataCriacao))
 				// TODO: 5/1/18 implementar internacionalizacao
 				.orElseThrow(() -> new NoSuchElementException("Não foi possível obter movimentação mais recente de conta a receber"));
-		return BigDecimal.ZERO.compareTo(movimentacaoMaisRecente.getSaldoDevedor()) > 0;
+		return BigDecimal.ZERO.compareTo(movimentacaoMaisRecente.getSaldoDevedor()) < 0;
 	}
 
 	@AllArgsConstructor
