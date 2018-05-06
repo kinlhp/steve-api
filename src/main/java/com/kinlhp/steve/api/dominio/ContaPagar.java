@@ -26,7 +26,7 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Comparator;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity(name = "conta_pagar")
@@ -34,7 +34,7 @@ import java.util.Set;
 @Setter
 public class ContaPagar extends AuditavelAbstrato<Credencial, BigInteger> {
 
-	private static final long serialVersionUID = -4861470593068507382L;
+	private static final long serialVersionUID = -5413913712775152825L;
 
 	@JoinColumn(name = "cedente")
 	@JsonDeserialize(
@@ -110,22 +110,47 @@ public class ContaPagar extends AuditavelAbstrato<Credencial, BigInteger> {
 	public BigDecimal getMontantePago() {
 		return CollectionUtils.isEmpty(movimentacoes)
 				? BigDecimal.ZERO
-				: movimentacoes.stream().map(MovimentacaoContaPagar::getValorPago).reduce(BigDecimal.ZERO, BigDecimal::add);
+				: movimentacoes
+				.stream()
+				.filter(p -> !p.isEstornado())
+				.map(MovimentacaoContaPagar::getValorPago)
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+	}
+
+	public BigDecimal getSaldoDevedor() {
+		if (CollectionUtils.isEmpty(movimentacoes)) {
+			return valor;
+		}
+		final Optional<MovimentacaoContaPagar> movimentacaoContaPagar = movimentacoes
+				.stream()
+				.filter(p -> !p.isEstornado())
+				.max(Comparator.comparing(MovimentacaoContaPagar::getDataCriacao));
+		if (!movimentacaoContaPagar.isPresent()) {
+			return valor;
+		} else {
+			return movimentacaoContaPagar.get().getSaldoDevedor();
+		}
+	}
+
+	public boolean hasMontantePago() {
+		return !CollectionUtils.isEmpty(movimentacoes) && movimentacoes
+				.stream()
+				.filter(p -> !p.isEstornado())
+				.max(Comparator.comparing(MovimentacaoContaPagar::getDataCriacao))
+				.isPresent();
+
 	}
 
 	public boolean hasSaldoDevedor() {
 		if (BigDecimal.ZERO.compareTo(valor) > 0) {
 			return false;
-		} else if (CollectionUtils.isEmpty(movimentacoes)) {
-			return true;
 		}
-		final MovimentacaoContaPagar movimentacaoMaisRecente = movimentacoes
+		return CollectionUtils.isEmpty(movimentacoes) || movimentacoes
 				.stream()
 				.filter(p -> !p.isEstornado())
 				.max(Comparator.comparing(MovimentacaoContaPagar::getDataCriacao))
-				// TODO: 5/1/18 implementar internacionalizacao
-				.orElseThrow(() -> new NoSuchElementException("Não foi possível obter movimentação mais recente de conta a pagar"));
-		return BigDecimal.ZERO.compareTo(movimentacaoMaisRecente.getSaldoDevedor()) > 0;
+				.map(p -> BigDecimal.ZERO.compareTo(p.getSaldoDevedor()) < 0)
+				.isPresent();
 	}
 
 	@AllArgsConstructor
