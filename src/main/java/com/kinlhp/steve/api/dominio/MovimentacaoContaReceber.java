@@ -1,5 +1,7 @@
 package com.kinlhp.steve.api.dominio;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.kinlhp.steve.api.servico.validacao.alteracao.antes.ValidacaoAlteracaoMovimentacaoContaReceber;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,6 +46,10 @@ public class MovimentacaoContaReceber
 	@NotNull
 	private BigDecimal descontoConcedido = BigDecimal.ZERO;
 
+	@JsonDeserialize(
+			using = ValidacaoAlteracaoMovimentacaoContaReceber
+					.ValidacaoAlteracaoEstornado.class
+	)
 	private boolean estornado;
 
 	@Column(name = "juro_aplicado", updatable = false)

@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.Comparator;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity(name = "conta_receber")
@@ -33,7 +33,7 @@ import java.util.Set;
 @Setter
 public class ContaReceber extends AuditavelAbstrato<Credencial, BigInteger> {
 
-	private static final long serialVersionUID = -7115621384931195115L;
+	private static final long serialVersionUID = 8134662056979442848L;
 
 	@JoinColumn(name = "condicao_pagamento")
 	@JsonDeserialize(
@@ -104,22 +104,47 @@ public class ContaReceber extends AuditavelAbstrato<Credencial, BigInteger> {
 	public BigDecimal getMontantePago() {
 		return CollectionUtils.isEmpty(movimentacoes)
 				? BigDecimal.ZERO
-				: movimentacoes.stream().filter(p -> !p.isEstornado()).map(MovimentacaoContaReceber::getValorPago).reduce(BigDecimal.ZERO, BigDecimal::add);
+				: movimentacoes
+				.stream()
+				.filter(p -> !p.isEstornado())
+				.map(MovimentacaoContaReceber::getValorPago)
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+	}
+
+	public BigDecimal getSaldoDevedor() {
+		if (CollectionUtils.isEmpty(movimentacoes)) {
+			return valor;
+		}
+		final Optional<MovimentacaoContaReceber> movimentacaoContaReceber = movimentacoes
+				.stream()
+				.filter(p -> !p.isEstornado())
+				.max(Comparator.comparing(MovimentacaoContaReceber::getDataCriacao));
+		if (!movimentacaoContaReceber.isPresent()) {
+			return valor;
+		} else {
+			return movimentacaoContaReceber.get().getSaldoDevedor();
+		}
+	}
+
+	public boolean hasMontantePago() {
+		return !CollectionUtils.isEmpty(movimentacoes) && movimentacoes
+				.stream()
+				.filter(p -> !p.isEstornado())
+				.max(Comparator.comparing(MovimentacaoContaReceber::getDataCriacao))
+				.isPresent();
+
 	}
 
 	public boolean hasSaldoDevedor() {
 		if (BigDecimal.ZERO.compareTo(valor) > 0) {
 			return false;
-		} else if (CollectionUtils.isEmpty(movimentacoes)) {
-			return true;
 		}
-		final MovimentacaoContaReceber movimentacaoMaisRecente = movimentacoes
+		return CollectionUtils.isEmpty(movimentacoes) || movimentacoes
 				.stream()
 				.filter(p -> !p.isEstornado())
 				.max(Comparator.comparing(MovimentacaoContaReceber::getDataCriacao))
-				// TODO: 5/1/18 implementar internacionalizacao
-				.orElseThrow(() -> new NoSuchElementException("Não foi possível obter movimentação mais recente de conta a receber"));
-		return BigDecimal.ZERO.compareTo(movimentacaoMaisRecente.getSaldoDevedor()) < 0;
+				.map(p -> BigDecimal.ZERO.compareTo(p.getSaldoDevedor()) < 0)
+				.isPresent();
 	}
 
 	@AllArgsConstructor

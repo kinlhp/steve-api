@@ -11,7 +11,6 @@ import org.springframework.validation.Errors;
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
-import java.math.BigDecimal;
 
 @Component(value = "afterSaveMovimentacaoContaReceber")
 public class AjusteAlteracaoMovimentacaoContaReceber
@@ -42,7 +41,7 @@ public class AjusteAlteracaoMovimentacaoContaReceber
 	private void reabrirContaReceber() {
 		final ContaReceber contaReceber = super.dominio.getContaReceber();
 		if (contaReceber.hasSaldoDevedor()) {
-			if (BigDecimal.ZERO.compareTo(contaReceber.getMontantePago()) < 0) {
+			if (contaReceber.hasMontantePago()) {
 				contaReceber.setSituacao(ContaReceber.Situacao.AMORTIZADO);
 			} else {
 				contaReceber.setSituacao(ContaReceber.Situacao.ABERTO);

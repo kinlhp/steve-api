@@ -30,10 +30,10 @@ public class ValidacaoAlteracaoMovimentacaoContaReceber
 		super.erros = errors;
 
 		// TODO: 5/5/18 implementar design pattern que resolva essa má prática
-		validarEstorno();
+		validarEstornado();
 	}
 
-	private void validarEstorno() {
+	private void validarEstornado() {
 		if (super.dominio.isEstornado()) {
 			// TODO: 5/5/18 implementar internacionalização
 			super.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
@@ -42,10 +42,10 @@ public class ValidacaoAlteracaoMovimentacaoContaReceber
 	}
 
 	@Component
-	public final class ValidacaoAlteracaoEstorno
+	public final class ValidacaoAlteracaoEstornado
 			extends JsonDeserializer<Boolean> implements Serializable {
 
-		private static final long serialVersionUID = -4655975989176823695L;
+		private static final long serialVersionUID = -1035459144433623419L;
 
 		@Override
 		public Boolean deserialize(JsonParser jsonParser,

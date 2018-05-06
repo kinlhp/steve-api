@@ -4,8 +4,6 @@ import com.kinlhp.steve.api.dominio.ContaReceber;
 import com.kinlhp.steve.api.dominio.Ordem;
 import com.kinlhp.steve.api.dominio.Permissao;
 
-import java.math.BigDecimal;
-
 public abstract class ValidacaoContaReceber
 		extends ValidavelAbstrato<ContaReceber> {
 
@@ -23,7 +21,7 @@ public abstract class ValidacaoContaReceber
 	protected void validarSituacao() {
 		if (super.dominio.getSituacao() != null) {
 			// se conta a receber possuir montante pago
-			if (BigDecimal.ZERO.compareTo(super.dominio.getMontantePago()) < 0) {
+			if (super.dominio.hasMontantePago()) {
 				if (ContaReceber.Situacao.ABERTO.equals(super.dominio.getSituacao())) {
 					// TODO: 5/1/18 implementar internacionalizacao
 					super.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Conta a receber com montante pago não deve ser aberto");

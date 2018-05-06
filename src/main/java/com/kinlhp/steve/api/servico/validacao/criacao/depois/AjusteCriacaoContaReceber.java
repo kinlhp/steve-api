@@ -34,10 +34,10 @@ public class AjusteCriacaoContaReceber extends ValidacaoContaReceber {
 		super.erros = errors;
 
 		// TODO: 5/5/18 implementar design pattern que resolva essa má prática
-		gerarOrdem();
+		validarSituacaoOrdem();
 	}
 
-	private void gerarOrdem() {
+	private void validarSituacaoOrdem() {
 		if (super.dominio.getOrdem().getContasReceber().size() == super.dominio.getCondicaoPagamento().getQuantidadeParcelas()) {
 			super.dominio.getOrdem().setSituacao(Ordem.Situacao.GERADO);
 			try {
