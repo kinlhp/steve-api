@@ -12,7 +12,7 @@ import java.time.temporal.ChronoUnit;
 public class ValidacaoCriacaoItemOrdemServico
 		extends ValidacaoItemOrdemServico {
 
-	private static final long serialVersionUID = -7948896574304437674L;
+	private static final long serialVersionUID = -2396180404543105141L;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -26,6 +26,7 @@ public class ValidacaoCriacaoItemOrdemServico
 
 		// TODO: 4/29/18 implementar design pattern que resolva essa má prática
 		validarDataFinalizacaoPrevista();
+		validarOrdem();
 	}
 
 	private void validarDataFinalizacaoPrevista() {

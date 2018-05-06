@@ -45,6 +45,10 @@ public class ItemOrdemServico
 	private Ordem ordem;
 
 	@JoinColumn(name = "servico")
+	@JsonDeserialize(
+			using = ValidacaoAlteracaoItemOrdemServico
+					.ValidacaoAlteracaoServico.class
+	)
 	@ManyToOne
 	@NotNull
 	@Valid
