@@ -23,11 +23,13 @@ public abstract class ValidacaoContaReceber
 	protected void validarSituacao() {
 		if (super.dominio.getSituacao() != null) {
 			// se conta a receber possuir montante pago
-			if (BigDecimal.ZERO.compareTo(super.dominio.getMontantePago()) <= 0) {
-				if (ContaReceber.Situacao.ABERTO.equals(super.dominio.getSituacao())
-						|| ContaReceber.Situacao.CANCELADO.equals(super.dominio.getSituacao())) {
+			if (BigDecimal.ZERO.compareTo(super.dominio.getMontantePago()) < 0) {
+				if (ContaReceber.Situacao.ABERTO.equals(super.dominio.getSituacao())) {
 					// TODO: 5/1/18 implementar internacionalizacao
-					super.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Conta a receber com montante pago deve ser amortizado ou baixado");
+					super.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Conta a receber com montante pago não deve ser aberto");
+				} else if (ContaReceber.Situacao.CANCELADO.equals(super.dominio.getSituacao())) {
+					// TODO: 5/1/18 implementar internacionalizacao
+					super.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Conta a receber com montante pago não deve ser cancelado");
 				} else if (ContaReceber.Situacao.BAIXADO.equals(super.dominio.getSituacao()) && super.dominio.hasSaldoDevedor()) {
 					// TODO: 5/1/18 implementar internacionalizacao
 					super.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Conta a receber com saldo devedor não deve ser baixado");
@@ -43,8 +45,13 @@ public abstract class ValidacaoContaReceber
 					super.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
 							"Atributo \"situacao\" inválido: Somente usuário administrador pode cancelar conta a receber");
 				} else if (!ContaReceber.Situacao.ABERTO.equals(super.dominio.getSituacao())) {
-					// TODO: 5/1/18 implementar internacionalizacao
-					super.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Conta a receber sem montante pago não deve ser amortizado ou baixado");
+					if (ContaReceber.Situacao.AMORTIZADO.equals(super.dominio.getSituacao())) {
+						// TODO: 5/1/18 implementar internacionalizacao
+						super.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Conta a receber sem montante pago não deve ser amortizado");
+					} else if (ContaReceber.Situacao.BAIXADO.equals(super.dominio.getSituacao())) {
+						// TODO: 5/1/18 implementar internacionalizacao
+						super.erros.rejectValue("situacao", "situacao.invalid", "Atributo \"situacao\" inválido: Conta a receber sem montante pago não deve ser baixado");
+					}
 				}
 			}
 		}
