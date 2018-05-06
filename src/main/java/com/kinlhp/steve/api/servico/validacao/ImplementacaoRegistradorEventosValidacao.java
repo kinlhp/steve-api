@@ -31,7 +31,7 @@ public class ImplementacaoRegistradorEventosValidacao
 	@Override
 	public void afterPropertiesSet() {
 		Collection<String> eventos =
-				new HashSet<String>(Arrays.asList("beforeCreate", "beforeSave"));
+				new HashSet<String>(Arrays.asList("afterCreate", "afterSave", "beforeCreate", "beforeSave"));
 		for (Entry<String, Validator> validador : validadores.entrySet()) {
 			eventos.stream()
 					.filter(p -> validador.getKey().startsWith(p))
