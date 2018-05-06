@@ -104,7 +104,7 @@ public class ContaReceber extends AuditavelAbstrato<Credencial, BigInteger> {
 	public BigDecimal getMontantePago() {
 		return CollectionUtils.isEmpty(movimentacoes)
 				? BigDecimal.ZERO
-				: movimentacoes.stream().map(MovimentacaoContaReceber::getValorPago).reduce(BigDecimal.ZERO, BigDecimal::add);
+				: movimentacoes.stream().filter(p -> !p.isEstornado()).map(MovimentacaoContaReceber::getValorPago).reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 
 	public boolean hasSaldoDevedor() {

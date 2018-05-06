@@ -22,31 +22,31 @@ public class MovimentacaoContaReceber
 
 	private static final long serialVersionUID = -7154087627110463782L;
 
-	@Column(name = "base_calculo")
+	@Column(name = "base_calculo", updatable = false)
 	@Min(value = 0)
 	@NotNull
 	private BigDecimal baseCalculo = BigDecimal.ZERO;
 
-	@JoinColumn(name = "condicao_pagamento")
+	@JoinColumn(name = "condicao_pagamento", updatable = false)
 	@ManyToOne
 	@NotNull
 	@Valid
 	private CondicaoPagamento condicaoPagamento;
 
-	@JoinColumn(name = "conta_receber")
+	@JoinColumn(name = "conta_receber", updatable = false)
 	@ManyToOne
 	@NotNull
 	@Valid
 	private ContaReceber contaReceber;
 
-	@Column(name = "desconto_concedido")
+	@Column(name = "desconto_concedido", updatable = false)
 	@Min(value = 0)
 	@NotNull
 	private BigDecimal descontoConcedido = BigDecimal.ZERO;
 
 	private boolean estornado;
 
-	@Column(name = "juro_aplicado")
+	@Column(name = "juro_aplicado", updatable = false)
 	@Min(value = 0)
 	@NotNull
 	private BigDecimal juroAplicado = BigDecimal.ZERO;
@@ -54,12 +54,12 @@ public class MovimentacaoContaReceber
 	@Size(max = 256)
 	private String observacao;
 
-	@Column(name = "saldo_devedor")
+	@Column(name = "saldo_devedor", updatable = false)
 	@Min(value = 0)
 	@NotNull
 	private BigDecimal saldoDevedor = BigDecimal.ZERO;
 
-	@Column(name = "valor_pago")
+	@Column(name = "valor_pago", updatable = false)
 	@Min(value = 0)
 	@NotNull
 	private BigDecimal valorPago = BigDecimal.ZERO;
