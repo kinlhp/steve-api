@@ -29,7 +29,6 @@ public class ValidacaoAlteracaoMovimentacaoContaPagar
 		super.dominio = (MovimentacaoContaPagar) object;
 		super.erros = errors;
 
-		// TODO: 5/6/18 implementar design pattern que resolva essa má prática
 		validarEstornado();
 	}
 
@@ -56,6 +55,7 @@ public class ValidacaoAlteracaoMovimentacaoContaPagar
 			final boolean estornado = jsonParser.getBooleanValue();
 			if (registroInalterado.getId() != null) {
 				if (registroInalterado.isEstornado() && !estornado) {
+					// TODO: 5/15/18 implementar internacionalização
 					ValidacaoAlteracaoMovimentacaoContaPagar.this
 							.erros.rejectValue("estornado", "estornado.invalid", "Atributo \"estornado\" inválido: Estorno de movimentação de conta a pagar não pode ser cancelado");
 				}

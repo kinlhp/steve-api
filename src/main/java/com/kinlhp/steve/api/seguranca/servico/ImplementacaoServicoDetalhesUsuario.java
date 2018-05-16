@@ -24,8 +24,7 @@ public class ImplementacaoServicoDetalhesUsuario
 	private static final long serialVersionUID = -7740754164189493498L;
 	private final RepositorioCredencial repositorioCredencial;
 
-	@Autowired
-	public ImplementacaoServicoDetalhesUsuario(RepositorioCredencial repositorioCredencial) {
+	public ImplementacaoServicoDetalhesUsuario(@Autowired RepositorioCredencial repositorioCredencial) {
 		this.repositorioCredencial = repositorioCredencial;
 	}
 
@@ -38,7 +37,7 @@ public class ImplementacaoServicoDetalhesUsuario
 							.getAccessor();
 					return new UsernameNotFoundException(message.getMessage(
 							"DigestAuthenticationFilter.usernameNotFound",
-							new Object[]{username}, "Bad credentials"));
+							new Object[]{username}));
 				});
 		return new DetalhesUsuario<Credencial>(credencial, concederAutoridades(credencial));
 	}

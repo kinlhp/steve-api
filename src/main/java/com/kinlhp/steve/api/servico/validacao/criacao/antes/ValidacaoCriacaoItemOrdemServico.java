@@ -1,7 +1,9 @@
 package com.kinlhp.steve.api.servico.validacao.criacao.antes;
 
 import com.kinlhp.steve.api.dominio.ItemOrdemServico;
+import com.kinlhp.steve.api.repositorio.RepositorioOrdem;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoItemOrdemServico;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
@@ -12,7 +14,11 @@ import java.time.temporal.ChronoUnit;
 public class ValidacaoCriacaoItemOrdemServico
 		extends ValidacaoItemOrdemServico {
 
-	private static final long serialVersionUID = -2396180404543105141L;
+	private static final long serialVersionUID = -3544678547845408086L;
+
+	public ValidacaoCriacaoItemOrdemServico(@Autowired RepositorioOrdem repositorioOrdem) {
+		super(repositorioOrdem);
+	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -24,7 +30,6 @@ public class ValidacaoCriacaoItemOrdemServico
 		super.dominio = (ItemOrdemServico) object;
 		super.erros = errors;
 
-		// TODO: 4/29/18 implementar design pattern que resolva essa má prática
 		validarDataFinalizacaoPrevista();
 		validarOrdem();
 	}
@@ -33,7 +38,7 @@ public class ValidacaoCriacaoItemOrdemServico
 		if (super.dominio.getDataFinalizacaoPrevista() != null) {
 			final LocalDate data = super.dominio.getDataFinalizacaoPrevista();
 			if (LocalDate.now().until(data, ChronoUnit.DAYS) < 0) {
-				// TODO: 5/1/18 implementar internacionalizacao
+				// TODO: 5/1/18 implementar internacionalização
 				super.erros.rejectValue("dataFinalizacaoPrevista", "dataFinalizacaoPrevista.invalid", "Atributo \"dataFinalizacaoPrevista\" inválido: Somente data futura é permitido");
 			}
 		}

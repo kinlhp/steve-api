@@ -8,7 +8,7 @@ import org.springframework.validation.Errors;
 @Component(value = "beforeCreateEndereco")
 public class ValidacaoCriacaoEndereco extends ValidacaoEndereco {
 
-	private static final long serialVersionUID = 5871765876300306464L;
+	private static final long serialVersionUID = -2159018777172364334L;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -20,7 +20,6 @@ public class ValidacaoCriacaoEndereco extends ValidacaoEndereco {
 		super.dominio = (Endereco) object;
 		super.erros = errors;
 
-		// TODO: 4/4/18 implementar design pattern que resolva essa má prática
 		validarPessoa();
 	}
 }

@@ -35,8 +35,7 @@ public class PreProcessadorCookieRefreshToken implements Filter, Serializable {
 	private static final long serialVersionUID = -888550624054711438L;
 	private final FrameworkEndpointHandlerMapping frameworkEndpointHandlerMapping;
 
-	@Autowired
-	public PreProcessadorCookieRefreshToken(FrameworkEndpointHandlerMapping frameworkEndpointHandlerMapping) {
+	public PreProcessadorCookieRefreshToken(@Autowired FrameworkEndpointHandlerMapping frameworkEndpointHandlerMapping) {
 		this.frameworkEndpointHandlerMapping = frameworkEndpointHandlerMapping;
 	}
 
@@ -73,7 +72,7 @@ public class PreProcessadorCookieRefreshToken implements Filter, Serializable {
 	}
 
 	/**
-	 * Le o {@link OAuth2AccessToken#REFRESH_TOKEN} do cookie seguro (http) e
+	 * Le o {@link OAuth2AccessToken#REFRESH_TOKEN} do cookie seguro (https) e
 	 * o escreve como parâmetro da requisição
 	 */
 	private ServletRequest escreverRefreshTokenNaRequisicao(HttpServletRequest requisicao) {

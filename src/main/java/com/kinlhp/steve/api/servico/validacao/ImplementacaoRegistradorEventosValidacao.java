@@ -21,9 +21,8 @@ public class ImplementacaoRegistradorEventosValidacao
 	private final Map<String, Validator> validadores;
 	private final ValidatingRepositoryEventListener validatingRepositoryEventListener;
 
-	@Autowired
-	public ImplementacaoRegistradorEventosValidacao(Map<String, Validator> validadores,
-	                                                ValidatingRepositoryEventListener validatingRepositoryEventListener) {
+	public ImplementacaoRegistradorEventosValidacao(@Autowired Map<String, Validator> validadores,
+	                                                @Autowired ValidatingRepositoryEventListener validatingRepositoryEventListener) {
 		this.validadores = validadores;
 		this.validatingRepositoryEventListener = validatingRepositoryEventListener;
 	}

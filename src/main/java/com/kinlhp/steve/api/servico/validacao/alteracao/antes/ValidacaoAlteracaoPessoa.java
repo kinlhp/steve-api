@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Component(value = "beforeSavePessoa")
 public class ValidacaoAlteracaoPessoa extends ValidacaoPessoa {
 
-	private static final long serialVersionUID = 1457817883262828945L;
+	private static final long serialVersionUID = 9174522398382070830L;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -28,19 +28,17 @@ public class ValidacaoAlteracaoPessoa extends ValidacaoPessoa {
 		super.dominio = (Pessoa) object;
 		super.erros = errors;
 
-		// TODO: 3/28/18 implementar design pattern que resolva essa má prática
 		validarAberturaNascimento();
 		validarCnpjCpf();
 		validarIeRg();
 		validarTipo();
 	}
 
-	// TODO: 3/31/18 corrigir essa gambiarra e continuar não permitindo que um usuário não administrador altere o perfil de usuário de uma pessoa
 	@Component
 	public final class ValidacaoAlteracaoPerfilUsuario
 			extends JsonDeserializer<Boolean> implements Serializable {
 
-		private static final long serialVersionUID = 6653142342814346849L;
+		private static final long serialVersionUID = -3123589793222672728L;
 
 		@Override
 		public Boolean deserialize(JsonParser jsonParser,
@@ -51,7 +49,7 @@ public class ValidacaoAlteracaoPessoa extends ValidacaoPessoa {
 			final boolean perfilUsuario = jsonParser.getBooleanValue();
 			if (registroInalterado.getId() != null) {
 				if (registroInalterado.isPerfilUsuario() != perfilUsuario) {
-					// TODO: 4/5/18 implementar internacionalizacao
+					// TODO: 4/5/18 implementar internacionalização
 					ValidacaoAlteracaoPessoa.this
 							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
 									"Atributo \"perfilUsuario\" inválido: Somente usuário administrador pode alterar pessoa com perfil de usuário");

@@ -8,21 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
-import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
-import javax.persistence.PersistenceContext;
-
 @Component(value = "afterCreateMovimentacaoContaPagar")
 public class AjusteCriacaoMovimentacaoContaPagar
 		extends ValidacaoMovimentacaoContaPagar {
 
-	private static final long serialVersionUID = 7260000879629015835L;
+	private static final long serialVersionUID = -5483238762007327037L;
+	private final RepositorioContaPagar repositorioContaPagar;
 
-	@PersistenceContext
-	private EntityManager entityManager;
-
-	@Autowired
-	private RepositorioContaPagar repositorioContaPagar;
+	public AjusteCriacaoMovimentacaoContaPagar(@Autowired RepositorioContaPagar repositorioContaPagar) {
+		this.repositorioContaPagar = repositorioContaPagar;
+	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -34,7 +29,6 @@ public class AjusteCriacaoMovimentacaoContaPagar
 		super.dominio = (MovimentacaoContaPagar) object;
 		super.erros = errors;
 
-		// TODO: 5/5/18 implementar design pattern que resolva essa má prática
 		baixarContaPagar();
 	}
 
@@ -43,12 +37,7 @@ public class AjusteCriacaoMovimentacaoContaPagar
 		if (!contaPagar.hasSaldoDevedor()
 				&& !ContaPagar.Situacao.BAIXADO.equals(contaPagar.getSituacao())) {
 			contaPagar.setSituacao(ContaPagar.Situacao.BAIXADO);
-			try {
-				entityManager.setFlushMode(FlushModeType.COMMIT);
-				repositorioContaPagar.saveAndFlush(contaPagar);
-			} finally {
-				entityManager.setFlushMode(FlushModeType.AUTO);
-			}
+			repositorioContaPagar.saveAndFlush(contaPagar);
 		}
 	}
 }

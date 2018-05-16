@@ -2,11 +2,13 @@ package com.kinlhp.steve.api.repositorio;
 
 import com.kinlhp.steve.api.dominio.Credencial;
 import com.kinlhp.steve.api.dominio.Permissao;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 @RepositoryRestResource(
 		collectionResourceRel = "permissoes",
@@ -27,4 +29,6 @@ public interface RepositorioPermissao
 	@Override
 	@RestResource(exported = false)
 	<S extends Permissao> S saveAndFlush(S permissao);
+
+	Optional<Permissao> findByDescricao(@Param(value = "descricao") Permissao.Descricao descricao);
 }

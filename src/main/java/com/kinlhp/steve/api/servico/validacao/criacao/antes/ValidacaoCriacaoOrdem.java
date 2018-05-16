@@ -8,7 +8,7 @@ import org.springframework.validation.Errors;
 @Component(value = "beforeCreateOrdem")
 public class ValidacaoCriacaoOrdem extends ValidacaoOrdem {
 
-	private static final long serialVersionUID = 8114314698497980265L;
+	private static final long serialVersionUID = 8357947477581425240L;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -20,7 +20,6 @@ public class ValidacaoCriacaoOrdem extends ValidacaoOrdem {
 		super.dominio = (Ordem) object;
 		super.erros = errors;
 
-		// TODO: 4/7/18 implementar design pattern que resolva essa má prática
 		validarCliente();
 		validarSituacao();
 	}

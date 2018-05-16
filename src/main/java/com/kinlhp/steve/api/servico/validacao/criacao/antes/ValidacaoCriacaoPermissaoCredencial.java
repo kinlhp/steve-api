@@ -9,7 +9,7 @@ import org.springframework.validation.Errors;
 public class ValidacaoCriacaoPermissaoCredencial
 		extends ValidacaoPermissaoCredencial {
 
-	private static final long serialVersionUID = 4421594552057857512L;
+	private static final long serialVersionUID = 8035104881944720989L;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -21,7 +21,6 @@ public class ValidacaoCriacaoPermissaoCredencial
 		super.dominio = (PermissaoCredencial) object;
 		super.erros = errors;
 
-		// TODO: 4/6/18 implementar design pattern que resolva essa má prática
 		validarPermissao();
 	}
 }

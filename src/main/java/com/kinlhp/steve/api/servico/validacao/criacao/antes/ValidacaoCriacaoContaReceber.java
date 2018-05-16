@@ -11,7 +11,7 @@ import java.time.temporal.ChronoUnit;
 @Component(value = "beforeCreateContaReceber")
 public class ValidacaoCriacaoContaReceber extends ValidacaoContaReceber {
 
-	private static final long serialVersionUID = -3860541141413561967L;
+	private static final long serialVersionUID = -1610650251840589190L;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -23,7 +23,6 @@ public class ValidacaoCriacaoContaReceber extends ValidacaoContaReceber {
 		super.dominio = (ContaReceber) object;
 		super.erros = errors;
 
-		// TODO: 4/30/18 implementar design pattern que resolva essa má prática
 		validarDataVencimento();
 		validarOrdem();
 		validarSituacao();
@@ -33,7 +32,7 @@ public class ValidacaoCriacaoContaReceber extends ValidacaoContaReceber {
 		if (super.dominio.getDataVencimento() != null) {
 			final LocalDate data = super.dominio.getDataVencimento();
 			if (LocalDate.now().until(data, ChronoUnit.DAYS) < 0) {
-				// TODO: 5/1/18 implementar internacionalizacao
+				// TODO: 5/1/18 implementar internacionalização
 				super.erros.rejectValue("dataVencimento", "dataVencimento.invalid", "Atributo \"dataVencimento\" inválido: Somente data futura é permitido");
 			}
 		}

@@ -11,7 +11,7 @@ public abstract class ValidacaoPermissaoCredencial
 	protected void validarPermissao() {
 		if (super.dominio.getPermissao() != null) {
 			if (Permissao.Descricao.SISTEMA.equals(super.dominio.getPermissao().getDescricao())) {
-				// TODO: 4/6/18 implementar internacionalizacao
+				// TODO: 4/6/18 implementar internacionalização
 				super.erros.rejectValue("permissao", "permissao.invalid", "Atributo \"permissao\" inválido: Permissão deve ser padrão ou administrador");
 			}
 		}

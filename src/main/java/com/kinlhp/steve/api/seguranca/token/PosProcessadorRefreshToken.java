@@ -27,8 +27,7 @@ public class PosProcessadorRefreshToken
 	private static final long serialVersionUID = 5179064071110661273L;
 	private final FrameworkEndpointHandlerMapping frameworkEndpointHandlerMapping;
 
-	@Autowired
-	public PosProcessadorRefreshToken(FrameworkEndpointHandlerMapping frameworkEndpointHandlerMapping) {
+	public PosProcessadorRefreshToken(@Autowired FrameworkEndpointHandlerMapping frameworkEndpointHandlerMapping) {
 		this.frameworkEndpointHandlerMapping = frameworkEndpointHandlerMapping;
 	}
 

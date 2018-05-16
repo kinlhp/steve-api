@@ -8,7 +8,7 @@ import org.springframework.validation.Errors;
 @Component(value = "beforeCreatePessoa")
 public class ValidacaoCriacaoPessoa extends ValidacaoPessoa {
 
-	private static final long serialVersionUID = -1913297021056622137L;
+	private static final long serialVersionUID = 8658791728896884643L;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -20,7 +20,6 @@ public class ValidacaoCriacaoPessoa extends ValidacaoPessoa {
 		super.dominio = (Pessoa) object;
 		super.erros = errors;
 
-		// TODO: 3/21/18 implementar design pattern que resolva essa má prática
 		validarAberturaNascimento();
 		validarCnpjCpf();
 		validarIeRg();

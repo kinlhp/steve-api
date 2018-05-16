@@ -11,7 +11,7 @@ import java.time.ZoneId;
 public class ImplementacaoConversorMesReferente
 		implements AttributeConverter<YearMonth, LocalDate>, Serializable {
 
-	private static final long serialVersionUID = 1598360768671558978L;
+	private static final long serialVersionUID = 5041719727138404385L;
 
 	@Override
 	public LocalDate convertToDatabaseColumn(YearMonth yearMonth) {

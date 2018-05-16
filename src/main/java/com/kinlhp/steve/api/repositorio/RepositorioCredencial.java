@@ -3,7 +3,6 @@ package com.kinlhp.steve.api.repositorio;
 import com.kinlhp.steve.api.dominio.Credencial;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.math.BigInteger;
@@ -18,9 +17,6 @@ import java.util.Optional;
 public interface RepositorioCredencial
 		extends RepositorioAuditavel<Credencial, Credencial, BigInteger> {
 
-	@RestResource(exported = false)
-	Optional<Credencial> findByUsuario(@Param(value = "usuario") String usuario);
-
 	@Override
 	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR')")
 	<S extends Credencial> S save(S entity);
@@ -32,4 +28,6 @@ public interface RepositorioCredencial
 	@Override
 	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR')")
 	<S extends Credencial> S saveAndFlush(S entity);
+
+	Optional<Credencial> findByUsuario(@Param(value = "usuario") String usuario);
 }

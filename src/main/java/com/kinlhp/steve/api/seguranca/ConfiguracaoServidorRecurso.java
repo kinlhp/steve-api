@@ -25,8 +25,7 @@ public class ConfiguracaoServidorRecurso extends ResourceServerConfigurerAdapter
 	private static final long serialVersionUID = -7625653491801590785L;
 	private final UserDetailsService userDetailsService;
 
-	@Autowired
-	public ConfiguracaoServidorRecurso(UserDetailsService userDetailsService) {
+	public ConfiguracaoServidorRecurso(@Autowired UserDetailsService userDetailsService) {
 		this.userDetailsService = userDetailsService;
 	}
 

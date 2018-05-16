@@ -24,7 +24,6 @@ public class ValidacaoCriacaoMovimentacaoContaReceber
 		super.dominio = (MovimentacaoContaReceber) object;
 		super.erros = errors;
 
-		// TODO: 5/5/18 implementar design pattern que resolva essa má prática
 		validarBaseCalculo();
 		validarContaReceber();
 		validarEstornado();

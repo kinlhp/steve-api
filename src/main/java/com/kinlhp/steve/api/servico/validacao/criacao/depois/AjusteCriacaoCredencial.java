@@ -1,4 +1,4 @@
-package com.kinlhp.steve.api.servico.validacao.alteracao.antes;
+package com.kinlhp.steve.api.servico.validacao.criacao.depois;
 
 import com.kinlhp.steve.api.dominio.Credencial;
 import com.kinlhp.steve.api.repositorio.RepositorioPermissao;
@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
-@Component(value = "beforeSaveCredencial")
-public class ValidacaoAlteracaoCredencial extends ValidacaoCredencial {
+@Component(value = "afterCreateCredencial")
+public class AjusteCriacaoCredencial extends ValidacaoCredencial {
 
-	private static final long serialVersionUID = -5210750576740682917L;
+	private static final long serialVersionUID = -1823526783220049748L;
 
-	public ValidacaoAlteracaoCredencial(@Autowired RepositorioPermissao repositorioPermissao,
-	                                    @Autowired RepositorioPermissaoCredencial repositorioPermissaoCredencial) {
+	public AjusteCriacaoCredencial(@Autowired RepositorioPermissao repositorioPermissao,
+	                               @Autowired RepositorioPermissaoCredencial repositorioPermissaoCredencial) {
 		super(repositorioPermissao, repositorioPermissaoCredencial);
 	}
 
@@ -28,6 +28,7 @@ public class ValidacaoAlteracaoCredencial extends ValidacaoCredencial {
 		super.dominio = (Credencial) object;
 		super.erros = errors;
 
-		validarFuncionario();
+		concederOuRevogarPermissaoAdministrador();
+		concederOuRevogarPermissaoPadrao();
 	}
 }

@@ -8,21 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
-import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
-import javax.persistence.PersistenceContext;
-
 @Component(value = "afterSaveMovimentacaoContaReceber")
 public class AjusteAlteracaoMovimentacaoContaReceber
 		extends ValidacaoMovimentacaoContaReceber {
 
-	private static final long serialVersionUID = -1195258900688529279L;
+	private static final long serialVersionUID = 8264981253038868674L;
+	private final RepositorioContaReceber repositorioContaReceber;
 
-	@PersistenceContext
-	private EntityManager entityManager;
-
-	@Autowired
-	private RepositorioContaReceber repositorioContaReceber;
+	public AjusteAlteracaoMovimentacaoContaReceber(@Autowired RepositorioContaReceber repositorioContaReceber) {
+		this.repositorioContaReceber = repositorioContaReceber;
+	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -34,7 +29,6 @@ public class AjusteAlteracaoMovimentacaoContaReceber
 		super.dominio = (MovimentacaoContaReceber) object;
 		super.erros = errors;
 
-		// TODO: 5/5/18 implementar design pattern que resolva essa má prática
 		reabrirContaReceber();
 	}
 
@@ -46,12 +40,7 @@ public class AjusteAlteracaoMovimentacaoContaReceber
 			} else {
 				contaReceber.setSituacao(ContaReceber.Situacao.ABERTO);
 			}
-			try {
-				entityManager.setFlushMode(FlushModeType.COMMIT);
-				repositorioContaReceber.saveAndFlush(contaReceber);
-			} finally {
-				entityManager.setFlushMode(FlushModeType.AUTO);
-			}
+			repositorioContaReceber.saveAndFlush(contaReceber);
 		}
 	}
 }

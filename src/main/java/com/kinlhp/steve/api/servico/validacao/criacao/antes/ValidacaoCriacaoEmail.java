@@ -8,7 +8,7 @@ import org.springframework.validation.Errors;
 @Component(value = "beforeCreateEmail")
 public class ValidacaoCriacaoEmail extends ValidacaoEmail {
 
-	private static final long serialVersionUID = 614876609609436154L;
+	private static final long serialVersionUID = 3361170039112595437L;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -20,7 +20,6 @@ public class ValidacaoCriacaoEmail extends ValidacaoEmail {
 		super.dominio = (Email) object;
 		super.erros = errors;
 
-		// TODO: 4/4/18 implementar design pattern que resolva essa má prática
 		validarPessoa();
 	}
 }

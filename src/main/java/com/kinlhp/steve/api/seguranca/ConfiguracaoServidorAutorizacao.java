@@ -29,8 +29,7 @@ public class ConfiguracaoServidorAutorizacao
 	@Value(value = "${spring.data.rest.base-path}")
 	private String basePath;
 
-	@Autowired
-	public ConfiguracaoServidorAutorizacao(AuthenticationManager authenticationManager) {
+	public ConfiguracaoServidorAutorizacao(@Autowired AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
 	}
 
@@ -41,12 +40,12 @@ public class ConfiguracaoServidorAutorizacao
 		clients.inMemory()
 				.withClient("aplicativo").secret("@pl1c@t1v0").scopes("escrita", "leitura")
 				.authorizedGrantTypes(Concessao.todas())
-				.accessTokenValiditySeconds(20)
+				.accessTokenValiditySeconds(3_600 * 24)
 				.refreshTokenValiditySeconds(3_600 * 24)
 				.and()
 				.withClient("navegador").secret("n@ve9@d0r").scopes("escrita", "leitura")
 				.authorizedGrantTypes(Concessao.todas())
-				.accessTokenValiditySeconds(20)
+				.accessTokenValiditySeconds(3_600 * 24)
 				.refreshTokenValiditySeconds(3_600 * 24);
 
 	}
@@ -62,7 +61,7 @@ public class ConfiguracaoServidorAutorizacao
 				.allowedTokenEndpointRequestMethods(HttpMethod.DELETE, HttpMethod.GET, HttpMethod.POST)
 				.accessTokenConverter(accessTokenConverter())
 				.tokenStore(tokenStore())
-//				.reuseRefreshTokens(false)
+				.reuseRefreshTokens(false)
 				.authenticationManager(authenticationManager);
 	}
 

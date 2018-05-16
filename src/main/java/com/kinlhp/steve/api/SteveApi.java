@@ -2,6 +2,7 @@ package com.kinlhp.steve.api;
 
 import com.kinlhp.steve.api.auditoria.ImplementacaoAuditoriaConsciente;
 import com.kinlhp.steve.api.dominio.Credencial;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,12 @@ import java.io.Serializable;
 @SpringBootApplication
 public class SteveApi implements Serializable {
 
-	private static final long serialVersionUID = -304582774683480208L;
+	private static final long serialVersionUID = 7534352172178598836L;
+	private final ImplementacaoAuditoriaConsciente implementacaoAuditoriaConsciente;
+
+	public SteveApi(@Autowired ImplementacaoAuditoriaConsciente implementacaoAuditoriaConsciente) {
+		this.implementacaoAuditoriaConsciente = implementacaoAuditoriaConsciente;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(SteveApi.class, args);
@@ -25,6 +31,6 @@ public class SteveApi implements Serializable {
 
 	@Bean
 	AuditorAware<Credencial> provedorAuditoriaConsciente() {
-		return new ImplementacaoAuditoriaConsciente();
+		return this.implementacaoAuditoriaConsciente;
 	}
 }

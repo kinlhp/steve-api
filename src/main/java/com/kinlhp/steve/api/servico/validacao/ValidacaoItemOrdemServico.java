@@ -5,21 +5,17 @@ import com.kinlhp.steve.api.dominio.Ordem;
 import com.kinlhp.steve.api.repositorio.RepositorioOrdem;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
-import javax.persistence.PersistenceContext;
 import java.util.Locale;
 
 public abstract class ValidacaoItemOrdemServico
 		extends ValidavelAbstrato<ItemOrdemServico> {
 
-	private static final long serialVersionUID = 6464850295325183718L;
+	private static final long serialVersionUID = 5980842449705919179L;
+	private final RepositorioOrdem repositorioOrdem;
 
-	@PersistenceContext
-	private EntityManager entityManager;
-
-	@Autowired
-	private RepositorioOrdem repositorioOrdem;
+	public ValidacaoItemOrdemServico(@Autowired RepositorioOrdem repositorioOrdem) {
+		this.repositorioOrdem = repositorioOrdem;
+	}
 
 	protected void finalizarOuReabrirOrdem() {
 		final Ordem ordem = super.dominio.getOrdem();
@@ -40,17 +36,13 @@ public abstract class ValidacaoItemOrdemServico
 		} else {
 			return;
 		}
-		try {
-			entityManager.setFlushMode(FlushModeType.COMMIT);
-			repositorioOrdem.saveAndFlush(ordem);
-		} finally {
-			entityManager.setFlushMode(FlushModeType.AUTO);
-		}
+		repositorioOrdem.saveAndFlush(ordem);
 	}
 
 	protected void validarOrdem() {
 		if (super.dominio.getOrdem() != null) {
 			if (!Ordem.Situacao.ABERTO.equals(super.dominio.getOrdem().getSituacao())) {
+				// TODO: 5/15/18 implementar internacionalização
 				super.erros.rejectValue("ordem", "ordem.invalid", "Atributo \"ordem\" inválido: Ordem " + super.dominio.getOrdem().getSituacao().getDescricao().toLowerCase(Locale.ROOT) + " não deve ter " + (super.dominio.getOrdem().getId() != null ? "item alterado" : "novo item"));
 			}
 		}

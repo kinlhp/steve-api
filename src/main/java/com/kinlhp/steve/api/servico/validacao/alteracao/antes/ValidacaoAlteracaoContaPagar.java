@@ -21,7 +21,7 @@ import java.time.temporal.ChronoUnit;
 @Component(value = "beforeSaveContaPagar")
 public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 
-	private static final long serialVersionUID = -8693750234140765319L;
+	private static final long serialVersionUID = -4331315563568896989L;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -33,7 +33,6 @@ public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 		super.dominio = (ContaPagar) object;
 		super.erros = errors;
 
-		// TODO: 5/1/18 implementar design pattern que resolva essa má prática
 		validarDataEmissao();
 		validarMesReferente();
 		validarSituacao();
@@ -43,7 +42,7 @@ public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 	public final class ValidacaoAlteracaoCedente
 			extends JsonDeserializer<Pessoa> implements Serializable {
 
-		private static final long serialVersionUID = 4034000536988192915L;
+		private static final long serialVersionUID = -5506138693928615578L;
 
 		@Override
 		public Pessoa deserialize(JsonParser jsonParser,
@@ -55,7 +54,7 @@ public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 					.readValue(jsonParser, Pessoa.class);
 			if (registroInalterado.getId() != null && cedente != null) {
 				if (!registroInalterado.getCedente().equals(cedente)) {
-					// TODO: 5/1/18 implementar internacionalizacao
+					// TODO: 5/1/18 implementar internacionalização
 					ValidacaoAlteracaoContaPagar.this
 							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
 									"Atributo \"cedente\" inválido: Somente usuário administrador pode alterar cedente");
@@ -69,7 +68,7 @@ public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 	public final class ValidacaoAlteracaoDataEmissao
 			extends JsonDeserializer<LocalDate> implements Serializable {
 
-		private static final long serialVersionUID = 6965593616665739518L;
+		private static final long serialVersionUID = 2244805510100318260L;
 
 		@Override
 		public LocalDate deserialize(JsonParser jsonParser,
@@ -82,7 +81,7 @@ public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 			if (registroInalterado.getId() != null
 					&& registroInalterado.getDataEmissao() != null) {
 				if (!registroInalterado.getDataEmissao().equals(dataEmissao)) {
-					// TODO: 5/1/18 implementar internacionalizacao
+					// TODO: 5/1/18 implementar internacionalização
 					ValidacaoAlteracaoContaPagar.this
 							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR, "Atributo \"dataEmissao\" inválido: Somente usuário administrador pode alterar data de emissão");
 				}
@@ -95,7 +94,7 @@ public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 	public final class ValidacaoAlteracaoDataVencimento
 			extends JsonDeserializer<LocalDate> implements Serializable {
 
-		private static final long serialVersionUID = 6509551627925717353L;
+		private static final long serialVersionUID = -7565751478945865286L;
 
 		@Override
 		public LocalDate deserialize(JsonParser jsonParser,
@@ -107,7 +106,7 @@ public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 					.readValue(jsonParser, LocalDate.class);
 			if (registroInalterado.getId() != null && dataVencimento != null) {
 				if (registroInalterado.getDataVencimento().until(dataVencimento, ChronoUnit.DAYS) != 0) {
-					// TODO: 5/1/18 implementar internacionalizacao
+					// TODO: 5/1/18 implementar internacionalização
 					ValidacaoAlteracaoContaPagar.this
 							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
 									"Atributo \"dataVencimento\" inválido: Somente usuário administrador pode alterar data de vencimento");
@@ -121,7 +120,7 @@ public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 	public final class ValidacaoAlteracaoFatura extends JsonDeserializer<String>
 			implements Serializable {
 
-		private static final long serialVersionUID = -4782538323213302710L;
+		private static final long serialVersionUID = 7059422440127176027L;
 
 		@Override
 		public String deserialize(JsonParser jsonParser,
@@ -132,7 +131,7 @@ public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 			final String fatura = jsonParser.getText();
 			if (registroInalterado.getId() != null && fatura != null) {
 				if (!registroInalterado.getFatura().equals(fatura)) {
-					// TODO: 5/1/18 implementar internacionalizacao
+					// TODO: 5/1/18 implementar internacionalização
 					ValidacaoAlteracaoContaPagar.this
 							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
 									"Atributo \"fatura\" inválido: Somente usuário administrador pode alterar fatura");
@@ -146,7 +145,7 @@ public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 	public final class ValidacaoAlteracaoMesReferente
 			extends JsonDeserializer<YearMonth> implements Serializable {
 
-		private static final long serialVersionUID = -837015038146254004L;
+		private static final long serialVersionUID = -1276525628228622315L;
 
 		@Override
 		public YearMonth deserialize(JsonParser jsonParser,
@@ -158,7 +157,7 @@ public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 					.readValue(jsonParser, YearMonth.class);
 			if (registroInalterado.getId() != null && mesReferente != null) {
 				if (registroInalterado.getMesReferente().until(mesReferente, ChronoUnit.MONTHS) != 0) {
-					// TODO: 5/1/18 implementar internacionalizacao
+					// TODO: 5/1/18 implementar internacionalização
 					ValidacaoAlteracaoContaPagar.this
 							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
 									"Atributo \"mesReferente\" inválido: Somente usuário administrador pode alterar mês referente");
@@ -172,8 +171,6 @@ public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 //	public final class ValidacaoAlteracaoSituacao
 //			extends JsonDeserializer<ContaPagar.Situacao>
 //			implements Serializable {
-//
-//		private static final long serialVersionUID = -1161610604630973957L;
 //
 //		@Override
 //		public ContaPagar.Situacao deserialize(JsonParser jsonParser,
@@ -195,7 +192,7 @@ public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 	public final class ValidacaoAlteracaoValor
 			extends JsonDeserializer<BigDecimal> implements Serializable {
 
-		private static final long serialVersionUID = -4164485414381354423L;
+		private static final long serialVersionUID = -6049513490866254679L;
 
 		@Override
 		public BigDecimal deserialize(JsonParser jsonParser,
@@ -206,7 +203,7 @@ public class ValidacaoAlteracaoContaPagar extends ValidacaoContaPagar {
 			final BigDecimal valor = jsonParser.getDecimalValue();
 			if (registroInalterado.getId() != null && valor != null) {
 				if (registroInalterado.getValor().compareTo(valor) != 0) {
-					// TODO: 5/1/18 implementar internacionalizacao
+					// TODO: 5/1/18 implementar internacionalização
 					ValidacaoAlteracaoContaPagar.this
 							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
 									"Atributo \"valor\" inválido: Somente usuário administrador pode alterar valor");

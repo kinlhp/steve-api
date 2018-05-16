@@ -8,20 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
-import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
-import javax.persistence.PersistenceContext;
-
 @Component(value = "afterCreateContaReceber")
 public class AjusteCriacaoContaReceber extends ValidacaoContaReceber {
 
-	private static final long serialVersionUID = 2005752748626920491L;
+	private static final long serialVersionUID = 3941401651846339296L;
+	private final RepositorioOrdem repositorioOrdem;
 
-	@PersistenceContext
-	private EntityManager entityManager;
-
-	@Autowired
-	private RepositorioOrdem repositorioOrdem;
+	public AjusteCriacaoContaReceber(@Autowired RepositorioOrdem repositorioOrdem) {
+		this.repositorioOrdem = repositorioOrdem;
+	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -33,19 +28,13 @@ public class AjusteCriacaoContaReceber extends ValidacaoContaReceber {
 		super.dominio = (ContaReceber) object;
 		super.erros = errors;
 
-		// TODO: 5/5/18 implementar design pattern que resolva essa má prática
 		validarSituacaoOrdem();
 	}
 
 	private void validarSituacaoOrdem() {
 		if (super.dominio.getOrdem().getContasReceber().size() == super.dominio.getCondicaoPagamento().getQuantidadeParcelas()) {
 			super.dominio.getOrdem().setSituacao(Ordem.Situacao.GERADO);
-			try {
-				entityManager.setFlushMode(FlushModeType.COMMIT);
-				repositorioOrdem.saveAndFlush(super.dominio.getOrdem());
-			} finally {
-				entityManager.setFlushMode(FlushModeType.AUTO);
-			}
+			repositorioOrdem.saveAndFlush(super.dominio.getOrdem());
 		}
 	}
 }
