@@ -2,15 +2,38 @@ version: "3.6"
 services:
 
   db:
-    image: mysql:5.7
-    container_name: <NAME>
+    image: "mysql:5.7"
+    command: "mysqld --character-set-server=utf8 --collation-server=utf8_general_ci --init-connect='SET NAMES UTF8;'"
+    container_name: "steve-db"
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=<PASSWORD>
-      - MYSQL_DATABASE=<SCHEMA>
-      - MYSQL_USER=<USER>
-      - MYSQL_PASSWORD=<PASSWORD>
+      - MYSQL_DATABASE=steve
     ports:
-      - <POORT>:3306
+      - 3306:3306
     volumes:
-      - .:/var/lib/mysql
+      - /home/<USER>/.docker/volumes/steve/db:/var/lib/mysql
+    networks:
+      - steve-network
+
+  api:
+    image: "kinlhp/steve-api:1.0.0-Alpha"
+    container_name: "steve-api"
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 80:8080
+    volumes:
+      - /home/<USER>/.docker/volumes/steve/api/data:/data
+      - /home/<USER>/.docker/volumes/steve/api/tmp:/tmp
+    networks:
+      - steve-network
+
+networks:
+  steve-network:
+    name: "steve-network"
+    driver: bridge
