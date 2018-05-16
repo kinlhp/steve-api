@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -35,10 +36,15 @@ public class ImplementacaoServicoDetalhesUsuario
 				.orElseThrow(() -> {
 					MessageSourceAccessor message = SpringSecurityMessageSource
 							.getAccessor();
-					return new UsernameNotFoundException(message.getMessage(
+					return new UnauthorizedUserException(message.getMessage(
 							"DigestAuthenticationFilter.usernameNotFound",
 							new Object[]{username}));
 				});
+		if (!Credencial.Situacao.ATIVO.equals(credencial.getSituacao())) {
+			MessageSourceAccessor message = SpringSecurityMessageSource
+					.getAccessor();
+			throw new UnauthorizedUserException(message.getMessage("AccountStatusUserDetailsChecker.disabled"));
+		}
 		return new DetalhesUsuario<Credencial>(credencial, concederAutoridades(credencial));
 	}
 
