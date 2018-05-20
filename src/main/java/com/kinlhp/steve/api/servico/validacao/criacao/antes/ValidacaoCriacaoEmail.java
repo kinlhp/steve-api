@@ -1,14 +1,20 @@
 package com.kinlhp.steve.api.servico.validacao.criacao.antes;
 
 import com.kinlhp.steve.api.dominio.Email;
+import com.kinlhp.steve.api.repositorio.RepositorioEmail;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoEmail;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
 @Component(value = "beforeCreateEmail")
 public class ValidacaoCriacaoEmail extends ValidacaoEmail {
 
-	private static final long serialVersionUID = 3361170039112595437L;
+	private static final long serialVersionUID = -3841039927636165422L;
+
+	public ValidacaoCriacaoEmail(@Autowired RepositorioEmail repositorio) {
+		super(repositorio);
+	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {

@@ -3,6 +3,7 @@ package com.kinlhp.steve.api.servico.validacao;
 import com.kinlhp.steve.api.dominio.Credencial;
 import com.kinlhp.steve.api.dominio.Permissao;
 import com.kinlhp.steve.api.dominio.PermissaoCredencial;
+import com.kinlhp.steve.api.repositorio.RepositorioCredencial;
 import com.kinlhp.steve.api.repositorio.RepositorioPermissao;
 import com.kinlhp.steve.api.repositorio.RepositorioPermissaoCredencial;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigInteger;
 
 public abstract class ValidacaoCredencial
-		extends ValidavelAbstrato<Credencial> {
+		extends ValidavelAbstrato<Credencial, BigInteger> {
 
-	private static final long serialVersionUID = 8090073174637888561L;
+	private static final long serialVersionUID = -7891063703884672968L;
 	private final RepositorioPermissao repositorioPermissao;
 	private final RepositorioPermissaoCredencial repositorioPermissaoCredencial;
 
-	public ValidacaoCredencial(@Autowired RepositorioPermissao repositorioPermissao,
+	public ValidacaoCredencial(@Autowired RepositorioCredencial repositorio,
+	                           @Autowired RepositorioPermissao repositorioPermissao,
 	                           @Autowired RepositorioPermissaoCredencial repositorioPermissaoCredencial) {
+		super(repositorio);
 		this.repositorioPermissao = repositorioPermissao;
 		this.repositorioPermissaoCredencial = repositorioPermissaoCredencial;
 	}

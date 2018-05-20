@@ -1,6 +1,7 @@
 package com.kinlhp.steve.api.servico.validacao.criacao.antes;
 
 import com.kinlhp.steve.api.dominio.ItemOrdemServico;
+import com.kinlhp.steve.api.repositorio.RepositorioItemOrdemServico;
 import com.kinlhp.steve.api.repositorio.RepositorioOrdem;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoItemOrdemServico;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,11 @@ import java.time.temporal.ChronoUnit;
 public class ValidacaoCriacaoItemOrdemServico
 		extends ValidacaoItemOrdemServico {
 
-	private static final long serialVersionUID = -3544678547845408086L;
+	private static final long serialVersionUID = -3893976749702065812L;
 
-	public ValidacaoCriacaoItemOrdemServico(@Autowired RepositorioOrdem repositorioOrdem) {
-		super(repositorioOrdem);
+	public ValidacaoCriacaoItemOrdemServico(@Autowired RepositorioItemOrdemServico repositorio,
+	                                        @Autowired RepositorioOrdem repositorioOrdem) {
+		super(repositorio, repositorioOrdem);
 	}
 
 	@Override

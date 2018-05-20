@@ -1,6 +1,7 @@
 package com.kinlhp.steve.api.servico.validacao.alteracao.antes;
 
 import com.kinlhp.steve.api.dominio.Credencial;
+import com.kinlhp.steve.api.repositorio.RepositorioCredencial;
 import com.kinlhp.steve.api.repositorio.RepositorioPermissao;
 import com.kinlhp.steve.api.repositorio.RepositorioPermissaoCredencial;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoCredencial;
@@ -11,11 +12,12 @@ import org.springframework.validation.Errors;
 @Component(value = "beforeSaveCredencial")
 public class ValidacaoAlteracaoCredencial extends ValidacaoCredencial {
 
-	private static final long serialVersionUID = -5210750576740682917L;
+	private static final long serialVersionUID = 7533034554287990714L;
 
-	public ValidacaoAlteracaoCredencial(@Autowired RepositorioPermissao repositorioPermissao,
+	public ValidacaoAlteracaoCredencial(@Autowired RepositorioCredencial repositorio,
+	                                    @Autowired RepositorioPermissao repositorioPermissao,
 	                                    @Autowired RepositorioPermissaoCredencial repositorioPermissaoCredencial) {
-		super(repositorioPermissao, repositorioPermissaoCredencial);
+		super(repositorio, repositorioPermissao, repositorioPermissaoCredencial);
 	}
 
 	@Override

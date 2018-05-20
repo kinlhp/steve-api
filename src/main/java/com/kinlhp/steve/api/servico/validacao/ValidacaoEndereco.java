@@ -2,10 +2,19 @@ package com.kinlhp.steve.api.servico.validacao;
 
 import com.kinlhp.steve.api.dominio.Endereco;
 import com.kinlhp.steve.api.dominio.Permissao;
+import com.kinlhp.steve.api.repositorio.RepositorioEndereco;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class ValidacaoEndereco extends ValidavelAbstrato<Endereco> {
+import java.math.BigInteger;
 
-	private static final long serialVersionUID = -3316825255606671038L;
+public abstract class ValidacaoEndereco
+		extends ValidavelAbstrato<Endereco, BigInteger> {
+
+	private static final long serialVersionUID = -5740564410331738861L;
+
+	public ValidacaoEndereco(@Autowired RepositorioEndereco repositorio) {
+		super(repositorio);
+	}
 
 	/**
 	 * {@link com.kinlhp.steve.api.dominio.Credencial} sem {@link com.kinlhp.steve.api.dominio.Permissao} de {@link com.kinlhp.steve.api.dominio.Permissao.Descricao#ADMINISTRADOR}

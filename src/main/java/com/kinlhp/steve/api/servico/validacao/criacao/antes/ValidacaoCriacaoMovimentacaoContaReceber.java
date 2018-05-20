@@ -2,7 +2,9 @@ package com.kinlhp.steve.api.servico.validacao.criacao.antes;
 
 import com.kinlhp.steve.api.dominio.ContaReceber;
 import com.kinlhp.steve.api.dominio.MovimentacaoContaReceber;
+import com.kinlhp.steve.api.repositorio.RepositorioMovimentacaoContaReceber;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoMovimentacaoContaReceber;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
@@ -12,7 +14,11 @@ import java.math.BigDecimal;
 public class ValidacaoCriacaoMovimentacaoContaReceber
 		extends ValidacaoMovimentacaoContaReceber {
 
-	private static final long serialVersionUID = 1370795806344886904L;
+	private static final long serialVersionUID = 749513969584710862L;
+
+	public ValidacaoCriacaoMovimentacaoContaReceber(@Autowired RepositorioMovimentacaoContaReceber repositorio) {
+		super(repositorio);
+	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {

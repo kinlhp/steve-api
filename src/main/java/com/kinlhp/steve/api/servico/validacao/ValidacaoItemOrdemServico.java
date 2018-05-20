@@ -2,18 +2,22 @@ package com.kinlhp.steve.api.servico.validacao;
 
 import com.kinlhp.steve.api.dominio.ItemOrdemServico;
 import com.kinlhp.steve.api.dominio.Ordem;
+import com.kinlhp.steve.api.repositorio.RepositorioItemOrdemServico;
 import com.kinlhp.steve.api.repositorio.RepositorioOrdem;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigInteger;
 import java.util.Locale;
 
 public abstract class ValidacaoItemOrdemServico
-		extends ValidavelAbstrato<ItemOrdemServico> {
+		extends ValidavelAbstrato<ItemOrdemServico, BigInteger> {
 
-	private static final long serialVersionUID = 5980842449705919179L;
+	private static final long serialVersionUID = -5877118680498462913L;
 	private final RepositorioOrdem repositorioOrdem;
 
-	public ValidacaoItemOrdemServico(@Autowired RepositorioOrdem repositorioOrdem) {
+	public ValidacaoItemOrdemServico(@Autowired RepositorioItemOrdemServico repositorio,
+	                                 @Autowired RepositorioOrdem repositorioOrdem) {
+		super(repositorio);
 		this.repositorioOrdem = repositorioOrdem;
 	}
 

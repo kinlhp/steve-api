@@ -2,10 +2,19 @@ package com.kinlhp.steve.api.servico.validacao;
 
 import com.kinlhp.steve.api.dominio.Permissao;
 import com.kinlhp.steve.api.dominio.Telefone;
+import com.kinlhp.steve.api.repositorio.RepositorioTelefone;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class ValidacaoTelefone extends ValidavelAbstrato<Telefone> {
+import java.math.BigInteger;
 
-	private static final long serialVersionUID = -6175693513221932305L;
+public abstract class ValidacaoTelefone
+		extends ValidavelAbstrato<Telefone, BigInteger> {
+
+	private static final long serialVersionUID = 6589827688664872444L;
+
+	public ValidacaoTelefone(@Autowired RepositorioTelefone repositorio) {
+		super(repositorio);
+	}
 
 	/**
 	 * {@link com.kinlhp.steve.api.dominio.Credencial} sem {@link com.kinlhp.steve.api.dominio.Permissao} de {@link com.kinlhp.steve.api.dominio.Permissao.Descricao#ADMINISTRADOR}

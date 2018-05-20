@@ -34,6 +34,7 @@ public class ImplementacaoServicoDetalhesUsuario
 			throws UsernameNotFoundException {
 		Credencial credencial = repositorioCredencial.findByUsuario(username)
 				.orElseThrow(() -> {
+					// TODO: 5/18/18 remover refresh token do cookie seguro
 					MessageSourceAccessor message = SpringSecurityMessageSource
 							.getAccessor();
 					return new UnauthorizedUserException(message.getMessage(

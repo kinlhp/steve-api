@@ -1,7 +1,9 @@
 package com.kinlhp.steve.api.servico.validacao.criacao.antes;
 
 import com.kinlhp.steve.api.dominio.ContaReceber;
+import com.kinlhp.steve.api.repositorio.RepositorioContaReceber;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoContaReceber;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
@@ -11,7 +13,11 @@ import java.time.temporal.ChronoUnit;
 @Component(value = "beforeCreateContaReceber")
 public class ValidacaoCriacaoContaReceber extends ValidacaoContaReceber {
 
-	private static final long serialVersionUID = -1610650251840589190L;
+	private static final long serialVersionUID = 6504455746452722164L;
+
+	public ValidacaoCriacaoContaReceber(@Autowired RepositorioContaReceber repositorio) {
+		super(repositorio);
+	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {

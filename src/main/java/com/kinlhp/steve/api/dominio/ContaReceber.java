@@ -86,10 +86,6 @@ public class ContaReceber extends AuditavelAbstrato<Credencial, BigInteger> {
 	private Pessoa sacado;
 
 	@Enumerated(value = EnumType.STRING)
-//	@JsonDeserialize(
-//			using = ValidacaoAlteracaoContaReceber
-//					.ValidacaoAlteracaoSituacao.class
-//	)
 	@NotNull
 	private Situacao situacao = Situacao.ABERTO;
 

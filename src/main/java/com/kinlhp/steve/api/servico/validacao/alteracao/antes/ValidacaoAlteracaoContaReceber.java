@@ -8,20 +8,30 @@ import com.kinlhp.steve.api.dominio.CondicaoPagamento;
 import com.kinlhp.steve.api.dominio.ContaReceber;
 import com.kinlhp.steve.api.dominio.Permissao;
 import com.kinlhp.steve.api.dominio.Pessoa;
+import com.kinlhp.steve.api.repositorio.RepositorioContaReceber;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoContaReceber;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 @Component(value = "beforeSaveContaReceber")
 public class ValidacaoAlteracaoContaReceber extends ValidacaoContaReceber {
 
-	private static final long serialVersionUID = 3248304265762141760L;
+	private static final long serialVersionUID = 1578062868126762477L;
+
+	public ValidacaoAlteracaoContaReceber(@Autowired RepositorioContaReceber repositorio) {
+		super(repositorio);
+	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -41,22 +51,30 @@ public class ValidacaoAlteracaoContaReceber extends ValidacaoContaReceber {
 	public final class ValidacaoAlteracaoCondicaoPagamento
 			extends JsonDeserializer<CondicaoPagamento> implements Serializable {
 
-		private static final long serialVersionUID = -4154833766134398420L;
+		private static final long serialVersionUID = 459409007316191693L;
+		private final HttpServletRequest requisicao;
+
+		public ValidacaoAlteracaoCondicaoPagamento(@Autowired HttpServletRequest requisicao) {
+			this.requisicao = requisicao;
+		}
 
 		@Override
 		public CondicaoPagamento deserialize(JsonParser jsonParser,
 		                                     DeserializationContext deserializationContext)
 				throws IOException, JsonProcessingException {
-			final ContaReceber registroInalterado = (ContaReceber) jsonParser
-					.getCurrentValue();
 			final CondicaoPagamento condicaoPagamento = jsonParser.getCodec()
 					.readValue(jsonParser, CondicaoPagamento.class);
-			if (registroInalterado.getId() != null && condicaoPagamento != null) {
-				if (!registroInalterado.getCondicaoPagamento().equals(condicaoPagamento)) {
-					// TODO: 5/1/18 implementar internacionalização
-					ValidacaoAlteracaoContaReceber.this
-							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
-									"Atributo \"condicaoPagamento\" inválido: Somente usuário administrador pode alterar condição de pagamento");
+			final String id = new File(requisicao.getRequestURI()).getName();
+			if (id.chars().noneMatch(Character::isLetter)) {
+				final Optional<ContaReceber> inalterado = ValidacaoAlteracaoContaReceber.super
+						.verificarExistencia(new BigInteger(id));
+				if (inalterado.isPresent() && condicaoPagamento != null) {
+					if (!inalterado.get().getCondicaoPagamento().equals(condicaoPagamento)) {
+						// TODO: 5/1/18 implementar internacionalização
+						ValidacaoAlteracaoContaReceber.this
+								.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
+										"Atributo \"condicaoPagamento\" inválido: Somente usuário administrador pode alterar condição de pagamento");
+					}
 				}
 			}
 			return condicaoPagamento;
@@ -67,22 +85,30 @@ public class ValidacaoAlteracaoContaReceber extends ValidacaoContaReceber {
 	public final class ValidacaoAlteracaoDataVencimento
 			extends JsonDeserializer<LocalDate> implements Serializable {
 
-		private static final long serialVersionUID = 8502069246255964907L;
+		private static final long serialVersionUID = 176121753561742753L;
+		private final HttpServletRequest requisicao;
+
+		public ValidacaoAlteracaoDataVencimento(@Autowired HttpServletRequest requisicao) {
+			this.requisicao = requisicao;
+		}
 
 		@Override
 		public LocalDate deserialize(JsonParser jsonParser,
 		                             DeserializationContext deserializationContext)
 				throws IOException, JsonProcessingException {
-			final ContaReceber registroInalterado = (ContaReceber) jsonParser
-					.getCurrentValue();
 			final LocalDate dataVencimento = jsonParser.getCodec()
 					.readValue(jsonParser, LocalDate.class);
-			if (registroInalterado.getId() != null && dataVencimento != null) {
-				if (registroInalterado.getDataVencimento().until(dataVencimento, ChronoUnit.DAYS) != 0) {
-					// TODO: 5/1/18 implementar internacionalização
-					ValidacaoAlteracaoContaReceber.this
-							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
-									"Atributo \"dataVencimento\" inválido: Somente usuário administrador pode alterar data de vencimento");
+			final String id = new File(requisicao.getRequestURI()).getName();
+			if (id.chars().noneMatch(Character::isLetter)) {
+				final Optional<ContaReceber> inalterado = ValidacaoAlteracaoContaReceber.super
+						.verificarExistencia(new BigInteger(id));
+				if (inalterado.isPresent() && dataVencimento != null) {
+					if (inalterado.get().getDataVencimento().until(dataVencimento, ChronoUnit.DAYS) != 0) {
+						// TODO: 5/1/18 implementar internacionalização
+						ValidacaoAlteracaoContaReceber.this
+								.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
+										"Atributo \"dataVencimento\" inválido: Somente usuário administrador pode alterar data de vencimento");
+					}
 				}
 			}
 			return dataVencimento;
@@ -93,68 +119,63 @@ public class ValidacaoAlteracaoContaReceber extends ValidacaoContaReceber {
 	public final class ValidacaoAlteracaoSacado
 			extends JsonDeserializer<Pessoa> implements Serializable {
 
-		private static final long serialVersionUID = -6823085873782767924L;
+		private static final long serialVersionUID = 6215195607958210605L;
+		private final HttpServletRequest requisicao;
+
+		public ValidacaoAlteracaoSacado(@Autowired HttpServletRequest requisicao) {
+			this.requisicao = requisicao;
+		}
 
 		@Override
 		public Pessoa deserialize(JsonParser jsonParser,
 		                          DeserializationContext deserializationContext)
 				throws IOException, JsonProcessingException {
-			final ContaReceber registroInalterado = (ContaReceber) jsonParser
-					.getCurrentValue();
 			final Pessoa sacado = jsonParser.getCodec()
 					.readValue(jsonParser, Pessoa.class);
-			if (registroInalterado.getId() != null && sacado != null) {
-				if (!registroInalterado.getSacado().equals(sacado)) {
-					// TODO: 5/1/18 implementar internacionalização
-					ValidacaoAlteracaoContaReceber.this
-							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
-									"Atributo \"sacado\" inválido: Somente usuário administrador pode alterar sacado");
+			final String id = new File(requisicao.getRequestURI()).getName();
+			if (id.chars().noneMatch(Character::isLetter)) {
+				final Optional<ContaReceber> inalterado = ValidacaoAlteracaoContaReceber.super
+						.verificarExistencia(new BigInteger(id));
+				if (inalterado.isPresent() && sacado != null) {
+					if (!inalterado.get().getSacado().equals(sacado)) {
+						// TODO: 5/1/18 implementar internacionalização
+						ValidacaoAlteracaoContaReceber.this
+								.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
+										"Atributo \"sacado\" inválido: Somente usuário administrador pode alterar sacado");
+					}
 				}
 			}
 			return sacado;
 		}
 	}
 
-//	@Component
-//	public final class ValidacaoAlteracaoSituacao
-//			extends JsonDeserializer<ContaReceber.Situacao>
-//			implements Serializable {
-//
-//		@Override
-//		public ContaReceber.Situacao deserialize(JsonParser jsonParser,
-//		                                         DeserializationContext deserializationContext)
-//				throws IOException, JsonProcessingException {
-//			final ContaReceber registroInalterado = (ContaReceber) jsonParser
-//					.getCurrentValue();
-//			final ContaReceber.Situacao situacao = jsonParser.getCodec()
-//					.readValue(jsonParser, ContaReceber.Situacao.class);
-//			if (registroInalterado.getId() != null && situacao != null) {
-//				/*
-//				 */
-//			}
-//			return situacao;
-//		}
-//	}
-
 	@Component
 	public final class ValidacaoAlteracaoValor
 			extends JsonDeserializer<BigDecimal> implements Serializable {
 
-		private static final long serialVersionUID = 1185140357058705765L;
+		private static final long serialVersionUID = -9070762896697853673L;
+		final HttpServletRequest requisicao;
+
+		public ValidacaoAlteracaoValor(@Autowired HttpServletRequest requisicao) {
+			this.requisicao = requisicao;
+		}
 
 		@Override
 		public BigDecimal deserialize(JsonParser jsonParser,
 		                              DeserializationContext deserializationContext)
 				throws IOException, JsonProcessingException {
-			final ContaReceber registroInalterado = (ContaReceber) jsonParser
-					.getCurrentValue();
 			final BigDecimal valor = jsonParser.getDecimalValue();
-			if (registroInalterado.getId() != null && valor != null) {
-				if (registroInalterado.getValor().compareTo(valor) != 0) {
-					// TODO: 5/1/18 implementar internacionalização
-					ValidacaoAlteracaoContaReceber.this
-							.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
-									"Atributo \"valor\" inválido: Somente usuário administrador pode alterar valor");
+			final String id = new File(requisicao.getRequestURI()).getName();
+			if (id.chars().noneMatch(Character::isLetter)) {
+				final Optional<ContaReceber> inalterado = ValidacaoAlteracaoContaReceber.super
+						.verificarExistencia(new BigInteger(id));
+				if (inalterado.isPresent() && valor != null) {
+					if (inalterado.get().getValor().compareTo(valor) != 0) {
+						// TODO: 5/1/18 implementar internacionalização
+						ValidacaoAlteracaoContaReceber.this
+								.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
+										"Atributo \"valor\" inválido: Somente usuário administrador pode alterar valor");
+					}
 				}
 			}
 			return valor;

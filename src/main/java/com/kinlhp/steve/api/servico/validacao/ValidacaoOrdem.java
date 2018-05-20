@@ -3,14 +3,21 @@ package com.kinlhp.steve.api.servico.validacao;
 import com.kinlhp.steve.api.dominio.ItemOrdemServico;
 import com.kinlhp.steve.api.dominio.Ordem;
 import com.kinlhp.steve.api.dominio.Permissao;
+import com.kinlhp.steve.api.repositorio.RepositorioOrdem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigInteger;
 import java.util.Locale;
 
-public abstract class ValidacaoOrdem extends ValidavelAbstrato<Ordem> {
+public abstract class ValidacaoOrdem
+		extends ValidavelAbstrato<Ordem, BigInteger> {
 
-	private static final long serialVersionUID = -6289700643137865789L;
+	private static final long serialVersionUID = 6819701806592367229L;
+
+	public ValidacaoOrdem(@Autowired RepositorioOrdem repositorio) {
+		super(repositorio);
+	}
 
 	protected void validarCliente() {
 		if (super.dominio.getCliente() != null) {

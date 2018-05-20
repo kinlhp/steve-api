@@ -2,7 +2,9 @@ package com.kinlhp.steve.api.servico.validacao.criacao.antes;
 
 import com.kinlhp.steve.api.dominio.ContaPagar;
 import com.kinlhp.steve.api.dominio.MovimentacaoContaPagar;
+import com.kinlhp.steve.api.repositorio.RepositorioMovimentacaoContaPagar;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoMovimentacaoContaPagar;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
@@ -12,7 +14,11 @@ import java.math.BigDecimal;
 public class ValidacaoCriacaoMovimentacaoContaPagar
 		extends ValidacaoMovimentacaoContaPagar {
 
-	private static final long serialVersionUID = -7230953329954934949L;
+	private static final long serialVersionUID = -2336041361717095916L;
+
+	public ValidacaoCriacaoMovimentacaoContaPagar(@Autowired RepositorioMovimentacaoContaPagar repositorio) {
+		super(repositorio);
+	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {

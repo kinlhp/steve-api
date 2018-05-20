@@ -2,7 +2,9 @@ package com.kinlhp.steve.api.servico.validacao.criacao.antes;
 
 import com.kinlhp.steve.api.dominio.ContaPagar;
 import com.kinlhp.steve.api.dominio.Permissao;
+import com.kinlhp.steve.api.repositorio.RepositorioContaPagar;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoContaPagar;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
@@ -12,7 +14,11 @@ import java.time.temporal.ChronoUnit;
 @Component(value = "beforeCreateContaPagar")
 public class ValidacaoCriacaoContaPagar extends ValidacaoContaPagar {
 
-	private static final long serialVersionUID = 5943263452776231374L;
+	private static final long serialVersionUID = 7964555116024296493L;
+
+	public ValidacaoCriacaoContaPagar(@Autowired RepositorioContaPagar repositorio) {
+		super(repositorio);
+	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {

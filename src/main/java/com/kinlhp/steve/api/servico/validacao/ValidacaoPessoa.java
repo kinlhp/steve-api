@@ -5,23 +5,21 @@ import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 import com.kinlhp.steve.api.dominio.Permissao;
 import com.kinlhp.steve.api.dominio.Pessoa;
+import com.kinlhp.steve.api.repositorio.RepositorioPessoa;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 
-public abstract class ValidacaoPessoa extends ValidavelAbstrato<Pessoa> {
+public abstract class ValidacaoPessoa
+		extends ValidavelAbstrato<Pessoa, BigInteger> {
 
-	private static final long serialVersionUID = -313892552240189447L;
+	private static final long serialVersionUID = 8220610494450708215L;
 
-	protected void validarAberturaNascimento() {
-		if (super.dominio.getAberturaNascimento() != null) {
-			final LocalDate data = super.dominio.getAberturaNascimento();
-			if (LocalDate.now().until(data, ChronoUnit.DAYS) > 0) {
-				// TODO: 3/21/18 implementar internacionalização
-				super.erros.rejectValue("aberturaNascimento", "aberturaNascimento.invalid", "Atributo \"aberturaNascimento\" inválido: Data futura não é permitido");
-			}
-		}
+	public ValidacaoPessoa(@Autowired RepositorioPessoa repositorio) {
+		super(repositorio);
 	}
 
 	private boolean isCnpjValido(final String cnpj) {
@@ -40,6 +38,16 @@ public abstract class ValidacaoPessoa extends ValidavelAbstrato<Pessoa> {
 			return false;
 		}
 		return true;
+	}
+
+	protected void validarAberturaNascimento() {
+		if (super.dominio.getAberturaNascimento() != null) {
+			final LocalDate data = super.dominio.getAberturaNascimento();
+			if (LocalDate.now().until(data, ChronoUnit.DAYS) > 0) {
+				// TODO: 3/21/18 implementar internacionalização
+				super.erros.rejectValue("aberturaNascimento", "aberturaNascimento.invalid", "Atributo \"aberturaNascimento\" inválido: Data futura não é permitido");
+			}
+		}
 	}
 
 	protected void validarCnpjCpf() {

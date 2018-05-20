@@ -3,6 +3,7 @@ package com.kinlhp.steve.api.servico.validacao.criacao.depois;
 import com.kinlhp.steve.api.dominio.ContaReceber;
 import com.kinlhp.steve.api.dominio.MovimentacaoContaReceber;
 import com.kinlhp.steve.api.repositorio.RepositorioContaReceber;
+import com.kinlhp.steve.api.repositorio.RepositorioMovimentacaoContaReceber;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoMovimentacaoContaReceber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,10 +13,12 @@ import org.springframework.validation.Errors;
 public class AjusteCriacaoMovimentacaoContaReceber
 		extends ValidacaoMovimentacaoContaReceber {
 
-	private static final long serialVersionUID = -4088103537903691579L;
+	private static final long serialVersionUID = 5119541881059378526L;
 	private final RepositorioContaReceber repositorioContaReceber;
 
-	public AjusteCriacaoMovimentacaoContaReceber(@Autowired RepositorioContaReceber repositorioContaReceber) {
+	public AjusteCriacaoMovimentacaoContaReceber(@Autowired RepositorioMovimentacaoContaReceber repositorio,
+	                                             @Autowired RepositorioContaReceber repositorioContaReceber) {
+		super(repositorio);
 		this.repositorioContaReceber = repositorioContaReceber;
 	}
 

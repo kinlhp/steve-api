@@ -2,10 +2,19 @@ package com.kinlhp.steve.api.servico.validacao;
 
 import com.kinlhp.steve.api.dominio.Email;
 import com.kinlhp.steve.api.dominio.Permissao;
+import com.kinlhp.steve.api.repositorio.RepositorioEmail;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class ValidacaoEmail extends ValidavelAbstrato<Email> {
+import java.math.BigInteger;
 
-	private static final long serialVersionUID = 1405775721033460860L;
+public abstract class ValidacaoEmail
+		extends ValidavelAbstrato<Email, BigInteger> {
+
+	private static final long serialVersionUID = -2304792420114677542L;
+
+	public ValidacaoEmail(@Autowired RepositorioEmail repositorio) {
+		super(repositorio);
+	}
 
 	/**
 	 * {@link com.kinlhp.steve.api.dominio.Credencial} sem {@link com.kinlhp.steve.api.dominio.Permissao} de {@link com.kinlhp.steve.api.dominio.Permissao.Descricao#ADMINISTRADOR}

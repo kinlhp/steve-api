@@ -3,11 +3,19 @@ package com.kinlhp.steve.api.servico.validacao;
 import com.kinlhp.steve.api.dominio.ContaReceber;
 import com.kinlhp.steve.api.dominio.Ordem;
 import com.kinlhp.steve.api.dominio.Permissao;
+import com.kinlhp.steve.api.repositorio.RepositorioContaReceber;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.math.BigInteger;
 
 public abstract class ValidacaoContaReceber
-		extends ValidavelAbstrato<ContaReceber> {
+		extends ValidavelAbstrato<ContaReceber, BigInteger> {
 
-	private static final long serialVersionUID = 727775664605905447L;
+	private static final long serialVersionUID = 7161017010120246928L;
+
+	public ValidacaoContaReceber(@Autowired RepositorioContaReceber repositorio) {
+		super(repositorio);
+	}
 
 	protected void validarOrdem() {
 		if (super.dominio.getOrdem() != null) {

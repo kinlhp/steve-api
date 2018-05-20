@@ -3,6 +3,7 @@ package com.kinlhp.steve.api.servico.validacao.alteracao.depois;
 import com.kinlhp.steve.api.dominio.ContaPagar;
 import com.kinlhp.steve.api.dominio.MovimentacaoContaPagar;
 import com.kinlhp.steve.api.repositorio.RepositorioContaPagar;
+import com.kinlhp.steve.api.repositorio.RepositorioMovimentacaoContaPagar;
 import com.kinlhp.steve.api.servico.validacao.ValidacaoMovimentacaoContaPagar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,10 +13,12 @@ import org.springframework.validation.Errors;
 public class AjusteAlteracaoMovimentacaoContaPagar
 		extends ValidacaoMovimentacaoContaPagar {
 
-	private static final long serialVersionUID = -7519225635514583558L;
+	private static final long serialVersionUID = -3772152682423087744L;
 	private final RepositorioContaPagar repositorioContaPagar;
 
-	public AjusteAlteracaoMovimentacaoContaPagar(@Autowired RepositorioContaPagar repositorioContaPagar) {
+	public AjusteAlteracaoMovimentacaoContaPagar(@Autowired RepositorioMovimentacaoContaPagar repositorio,
+	                                             @Autowired RepositorioContaPagar repositorioContaPagar) {
+		super(repositorio);
 		this.repositorioContaPagar = repositorioContaPagar;
 	}
 

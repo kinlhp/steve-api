@@ -93,10 +93,6 @@ public class ContaPagar extends AuditavelAbstrato<Credencial, BigInteger> {
 	private String observacao;
 
 	@Enumerated(value = EnumType.STRING)
-//	@JsonDeserialize(
-//			using = ValidacaoAlteracaoContaPagar
-//					.ValidacaoAlteracaoSituacao.class
-//	)
 	@NotNull
 	private Situacao situacao;
 

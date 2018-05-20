@@ -2,14 +2,22 @@ package com.kinlhp.steve.api.servico.validacao;
 
 import com.kinlhp.steve.api.dominio.ContaPagar;
 import com.kinlhp.steve.api.dominio.Permissao;
+import com.kinlhp.steve.api.repositorio.RepositorioContaPagar;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 
-public abstract class ValidacaoContaPagar extends ValidavelAbstrato<ContaPagar> {
+public abstract class ValidacaoContaPagar
+		extends ValidavelAbstrato<ContaPagar, BigInteger> {
 
-	private static final long serialVersionUID = 5971908849306934779L;
+	private static final long serialVersionUID = -2393890733975756789L;
+
+	public ValidacaoContaPagar(@Autowired RepositorioContaPagar repositorio) {
+		super(repositorio);
+	}
 
 	protected void validarDataEmissao() {
 		if (super.dominio.getDataEmissao() != null) {
