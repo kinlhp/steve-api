@@ -749,18 +749,6 @@ USE `steve`;
 DELIMITER $$
 
 USE `steve`$$
-DROP TRIGGER IF EXISTS `steve`.`credencial_perfil_sistema_BEFORE_INSERT` $$
-USE `steve`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `steve`.`credencial_perfil_sistema_BEFORE_INSERT` BEFORE INSERT ON `credencial` FOR EACH ROW BEGIN
-	DECLARE perfil_sistema_unique CONDITION FOR SQLSTATE '23000';
-    IF(EXISTS(SELECT 1 FROM `credencial` WHERE NEW.`perfil_sistema` = TRUE AND `perfil_sistema` = NEW.`perfil_sistema`)) THEN
-        SET @conflict_message_text = CONCAT('Duplicate entry ''', NEW.`perfil_sistema`, ''' for key ''perfil_sistema_UNIQUE''');
-        SIGNAL perfil_sistema_unique SET MESSAGE_TEXT = @conflict_message_text, MYSQL_ERRNO = 1062;
-	END IF;
-END;$$
-
-
-USE `steve`$$
 DROP TRIGGER IF EXISTS `steve`.`pessoa_ie_rg_BEFORE_INSERT` $$
 USE `steve`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `steve`.`pessoa_ie_rg_BEFORE_INSERT` BEFORE INSERT ON `pessoa` FOR EACH ROW BEGIN
@@ -780,21 +768,6 @@ CREATE DEFINER = CURRENT_USER TRIGGER `steve`.`pessoa_tipo_BEFORE_INSERT` BEFORE
     IF(EXISTS(SELECT 1 FROM `pessoa` WHERE NEW.`tipo` = 'SISTEMA' AND `tipo` = NEW.`tipo`)) THEN
         SET @conflict_message_text = CONCAT('Duplicate entry ''', NEW.`tipo`, ''' for key ''tipo_UNIQUE''');
         SIGNAL tipo_sistema_unique SET MESSAGE_TEXT = @conflict_message_text, MYSQL_ERRNO = 1062;
-	END IF;
-END;$$
-
-
-USE `steve`$$
-DROP TRIGGER IF EXISTS `steve`.`credencial_perfil_sistema_BEFORE_UPDATE` $$
-USE `steve`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `steve`.`credencial_perfil_sistema_BEFORE_UPDATE` BEFORE UPDATE ON `credencial` FOR EACH ROW BEGIN
-	DECLARE perfil_sistema_unique CONDITION FOR SQLSTATE '23000';
-    IF(EXISTS(SELECT 1 FROM `credencial` WHERE NEW.`perfil_sistema` = TRUE AND `perfil_sistema` = NEW.`perfil_sistema`)) THEN
---      MESSAGE_TEXT = VARCHAR(128)
---      SET @current_schema_name_text = (SELECT SCHEMA());
---      SET @unmodifiable_message_text = CONCAT('Cannot delete or update a parent row: a foreign key constraint fails (`', @current_schema_name_text, '`.`credencial`, CONSTRAINT `FK_credencial_usuario_criacao` FOREIGN KEY (`usuario_criacao`) REFERENCES `credencial` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)');
-        SET @unmodifiable_message_text = CONCAT('Cannot delete or update a parent row having `perfil_sistema` = ''TRUE''');
-        SIGNAL perfil_sistema_unique SET MESSAGE_TEXT = @unmodifiable_message_text, MYSQL_ERRNO = 1451;
 	END IF;
 END;$$
 
@@ -825,6 +798,32 @@ CREATE DEFINER = CURRENT_USER TRIGGER `steve`.`pessoa_tipo_BEFORE_UPDATE` BEFORE
 	END IF;
 END;$$
 
+
+USE `steve`$$
+DROP TRIGGER IF EXISTS `steve`.`credencial_perfil_sistema_BEFORE_INSERT` $$
+USE `steve`$$
+CREATE DEFINER = CURRENT_USER TRIGGER `steve`.`credencial_perfil_sistema_BEFORE_INSERT` BEFORE INSERT ON `credencial` FOR EACH ROW BEGIN
+	DECLARE perfil_sistema_unique CONDITION FOR SQLSTATE '23000';
+    IF(EXISTS(SELECT 1 FROM `credencial` WHERE NEW.`perfil_sistema` = TRUE AND `perfil_sistema` = NEW.`perfil_sistema`)) THEN
+        SET @conflict_message_text = CONCAT('Duplicate entry ''', NEW.`perfil_sistema`, ''' for key ''perfil_sistema_UNIQUE''');
+        SIGNAL perfil_sistema_unique SET MESSAGE_TEXT = @conflict_message_text, MYSQL_ERRNO = 1062;
+	END IF;
+END;$$
+
+
+USE `steve`$$
+DROP TRIGGER IF EXISTS `steve`.`credencial_perfil_sistema_BEFORE_UPDATE` $$
+USE `steve`$$
+CREATE DEFINER = CURRENT_USER TRIGGER `steve`.`credencial_perfil_sistema_BEFORE_UPDATE` BEFORE UPDATE ON `credencial` FOR EACH ROW BEGIN
+	DECLARE perfil_sistema_unique CONDITION FOR SQLSTATE '23000';
+    IF(EXISTS(SELECT 1 FROM `credencial` WHERE NEW.`perfil_sistema` = TRUE AND `perfil_sistema` = NEW.`perfil_sistema`)) THEN
+--      MESSAGE_TEXT = VARCHAR(128)
+--      SET @current_schema_name_text = (SELECT SCHEMA());
+--      SET @unmodifiable_message_text = CONCAT('Cannot delete or update a parent row: a foreign key constraint fails (`', @current_schema_name_text, '`.`credencial`, CONSTRAINT `FK_credencial_usuario_criacao` FOREIGN KEY (`usuario_criacao`) REFERENCES `credencial` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)');
+        SET @unmodifiable_message_text = CONCAT('Cannot delete or update a parent row having `perfil_sistema` = ''TRUE''');
+        SIGNAL perfil_sistema_unique SET MESSAGE_TEXT = @unmodifiable_message_text, MYSQL_ERRNO = 1451;
+	END IF;
+END;$$
 
 DELIMITER ;
 
