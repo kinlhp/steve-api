@@ -45,6 +45,7 @@ public class ValidacaoAlteracaoItemOrdemServico
 		super.erros = errors;
 
 		validarOrdem();
+		validarSituacao();
 	}
 
 	@Component
@@ -150,7 +151,7 @@ public class ValidacaoAlteracaoItemOrdemServico
 						ValidacaoAlteracaoItemOrdemServico.this
 								.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,
 										"Atributo \"situação\" inválido: Somente usuário administrador pode alterar situação de item cancelado");
-					} else if (!ItemOrdemServico.Situacao.FINALIZADO.equals(inalterado.get().getSituacao())) {
+					} else if (ItemOrdemServico.Situacao.FINALIZADO.equals(inalterado.get().getSituacao())) {
 						// TODO: 4/30/18 implementar internacionalização
 						ValidacaoAlteracaoItemOrdemServico.this
 								.verificarPermissao(Permissao.Descricao.ADMINISTRADOR,

@@ -34,6 +34,7 @@ public class ValidacaoCriacaoItemOrdemServico
 
 		validarDataFinalizacaoPrevista();
 		validarOrdem();
+		validarSituacao();
 	}
 
 	private void validarDataFinalizacaoPrevista() {
