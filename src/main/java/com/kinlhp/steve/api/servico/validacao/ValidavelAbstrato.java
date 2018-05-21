@@ -20,10 +20,10 @@ import java.util.Optional;
 public abstract class ValidavelAbstrato<T extends Persistivel<PK>, PK extends Serializable>
 		implements Validavel<T> {
 
-	private static final long serialVersionUID = 2646957991982769479L;
+	private static final long serialVersionUID = -8046928862396621880L;
+	protected final RepositorioPersistivel<T, PK> repositorio;
 	private final MessageSourceAccessor mensagem = SpringSecurityMessageSource
 			.getAccessor();
-	private final RepositorioPersistivel<T, PK> repositorio;
 	protected T dominio;
 	protected Errors erros;
 
