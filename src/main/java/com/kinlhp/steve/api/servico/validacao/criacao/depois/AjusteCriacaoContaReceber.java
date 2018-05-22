@@ -9,11 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
+import javax.persistence.PersistenceContext;
+import java.util.Set;
+
 @Component(value = "afterCreateContaReceber")
 public class AjusteCriacaoContaReceber extends ValidacaoContaReceber {
 
-	private static final long serialVersionUID = 3407505778208851226L;
+	private static final long serialVersionUID = 8021457081286976392L;
 	private final RepositorioOrdem repositorioOrdem;
+
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	public AjusteCriacaoContaReceber(@Autowired RepositorioContaReceber repositorio,
 	                                 @Autowired RepositorioOrdem repositorioOrdem) {
@@ -35,9 +43,17 @@ public class AjusteCriacaoContaReceber extends ValidacaoContaReceber {
 	}
 
 	private void validarSituacaoOrdem() {
-		if (super.dominio.getOrdem().getContasReceber().size() == super.dominio.getCondicaoPagamento().getQuantidadeParcelas()) {
-			super.dominio.getOrdem().setSituacao(Ordem.Situacao.GERADO);
-			repositorioOrdem.saveAndFlush(super.dominio.getOrdem());
+		final Ordem ordem = super.dominio.getOrdem();
+		final Set<ContaReceber> contasReceber = ((RepositorioContaReceber) super.repositorio)
+				.findByOrdem(ordem);
+		if (contasReceber.size() == super.dominio.getCondicaoPagamento().getQuantidadeParcelas()) {
+			ordem.setSituacao(Ordem.Situacao.GERADO);
+			try {
+				entityManager.setFlushMode(FlushModeType.COMMIT);
+				repositorioOrdem.saveAndFlush(ordem);
+			} finally {
+				entityManager.setFlushMode(FlushModeType.AUTO);
+			}
 		}
 	}
 }
