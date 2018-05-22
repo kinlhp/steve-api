@@ -25,7 +25,7 @@ public abstract class ValidacaoItemOrdemServico
 
 	protected void finalizarOuReabrirOrdem() {
 		final Ordem ordem = super.dominio.getOrdem();
-		Set<ItemOrdemServico> itens = ((RepositorioItemOrdemServico) super.repositorio)
+		final Set<ItemOrdemServico> itens = ((RepositorioItemOrdemServico) super.repositorio)
 				.findByOrdem(ordem);
 		final long quantidadeItemAberto = itens.stream()
 				.filter(p -> ItemOrdemServico.Situacao.ABERTO.equals(p.getSituacao()))
