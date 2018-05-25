@@ -9,22 +9,22 @@ import java.math.BigInteger;
 import java.util.List;
 
 @RepositoryRestResource(
-		collectionResourceRel = "permissoescredencial",
-		itemResourceRel = "permissaocredencial",
-		path = "permissoescredencial"
+		collectionResourceRel = "permissoesCredencial",
+		itemResourceRel = "permissaoCredencial",
+		path = "permissoesCredencial"
 )
 public interface RepositorioPermissaoCredencial
 		extends RepositorioAuditavel<PermissaoCredencial, Credencial, BigInteger> {
 
 	@Override
-	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR')")
+	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR') and #oauth2.hasScope('escrita')")
 	<S extends PermissaoCredencial> S save(S permissaoCredencial);
 
 	@Override
-	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR')")
+	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR') and #oauth2.hasScope('escrita')")
 	<S extends PermissaoCredencial> List<S> save(Iterable<S> permissoesCredencial);
 
 	@Override
-	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR')")
+	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR') and #oauth2.hasScope('escrita')")
 	<S extends PermissaoCredencial> S saveAndFlush(S permissaoCredencial);
 }

@@ -17,31 +17,31 @@ public interface RepositorioAuditavel<T extends Auditavel<U, PK>, U extends Seri
 		extends RepositorioPersistivel<T, PK> {
 
 	@PreAuthorize(value = "hasAuthority('PADRAO') and #oauth2.hasScope('leitura')")
-	@RestResource(path = "por-criacao", rel = "por-criacao")
+	@RestResource(path = "criacao", rel = "criacao")
 	Page<T> findByDataCriacao(
 			@Param(value = "data") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ") final ZonedDateTime data,
 			final Pageable pageable
 	);
 
 	@PreAuthorize(value = "hasAuthority('PADRAO') and #oauth2.hasScope('leitura')")
-	@RestResource(path = "por-alteracao", rel = "por-alteracao")
+	@RestResource(path = "alteracao", rel = "alteracao")
 	Page<T> findByDataUltimaAlteracao(
 			@Param(value = "data") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ") final ZonedDateTime data,
 			final Pageable pageable
 	);
 
 	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR') and #oauth2.hasScope('leitura')")
-	@RestResource(path = "por-criador", rel = "por-criador")
+	@RestResource(path = "criador", rel = "criador")
 	Page<T> findByUsuarioCriacao(@Param(value = "usuario") final U usuario,
 	                             final Pageable pageable);
 
 	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR') and #oauth2.hasScope('leitura')")
-	@RestResource(path = "por-alterador", rel = "por-alterador")
+	@RestResource(path = "alterador", rel = "alterador")
 	Page<T> findByUsuarioUltimaAlteracao(@Param(value = "usuario") final U usuario,
 	                                     final Pageable pageable);
 
 	@PreAuthorize(value = "hasAuthority('PADRAO') and #oauth2.hasScope('leitura')")
-	@RestResource(path = "por-versao", rel = "por-versao")
+	@RestResource(path = "versao", rel = "versao")
 	Page<T> findByVersao(@Param(value = "versao") final Integer versao,
 	                     final Pageable pageable);
 }

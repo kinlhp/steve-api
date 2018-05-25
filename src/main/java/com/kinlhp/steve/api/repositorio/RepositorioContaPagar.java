@@ -7,9 +7,9 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.math.BigInteger;
 
 @RepositoryRestResource(
-		collectionResourceRel = "contaspagar",
-		itemResourceRel = "contapagar",
-		path = "contaspagar"
+		collectionResourceRel = "contasPagar",
+		itemResourceRel = "contaPagar",
+		path = "contasPagar"
 )
 public interface RepositorioContaPagar
 		extends RepositorioAuditavel<ContaPagar, Credencial, BigInteger> {

@@ -9,22 +9,22 @@ import java.math.BigInteger;
 import java.util.List;
 
 @RepositoryRestResource(
-		collectionResourceRel = "condicoespagamento",
-		itemResourceRel = "condicaopagamento",
-		path = "condicoespagamento"
+		collectionResourceRel = "condicoesPagamento",
+		itemResourceRel = "condicaoPagamento",
+		path = "condicoesPagamento"
 )
 public interface RepositorioCondicaoPagamento
 		extends RepositorioAuditavel<CondicaoPagamento, Credencial, BigInteger> {
 
 	@Override
-	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR')")
+	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR') and #oauth2.hasScope('escrita')")
 	<S extends CondicaoPagamento> S save(S condicaoPagamento);
 
 	@Override
-	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR')")
+	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR') and #oauth2.hasScope('escrita')")
 	<S extends CondicaoPagamento> List<S> save(Iterable<S> condicoesPagamento);
 
 	@Override
-	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR')")
+	@PreAuthorize(value = "hasAuthority('ADMINISTRADOR') and #oauth2.hasScope('escrita')")
 	<S extends CondicaoPagamento> S saveAndFlush(S condicaoPagamento);
 }
