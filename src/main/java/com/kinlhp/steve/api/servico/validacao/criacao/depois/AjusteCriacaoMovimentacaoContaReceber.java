@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
+import java.util.Set;
+
 @Component(value = "afterCreateMovimentacaoContaReceber")
 public class AjusteCriacaoMovimentacaoContaReceber
 		extends ValidacaoMovimentacaoContaReceber {
@@ -32,15 +34,25 @@ public class AjusteCriacaoMovimentacaoContaReceber
 		super.dominio = (MovimentacaoContaReceber) object;
 		super.erros = errors;
 
-		baixarContaReceber();
+		AmortizarOuBaixarContaReceber();
 	}
 
-	private void baixarContaReceber() {
+	private void AmortizarOuBaixarContaReceber() {
 		final ContaReceber contaReceber = super.dominio.getContaReceber();
-		if (!contaReceber.hasSaldoDevedor()
-				&& !ContaReceber.Situacao.BAIXADO.equals(contaReceber.getSituacao())) {
-			contaReceber.setSituacao(ContaReceber.Situacao.BAIXADO);
-			repositorioContaReceber.saveAndFlush(contaReceber);
+		final Set<MovimentacaoContaReceber> movimentacoes = ((RepositorioMovimentacaoContaReceber) super.repositorio)
+				.findByContaReceber(contaReceber);
+		contaReceber.setMovimentacoes(movimentacoes);
+		if (contaReceber.hasSaldoDevedor()) {
+			if (contaReceber.hasMontantePago()
+					&& !ContaReceber.Situacao.AMORTIZADO.equals(contaReceber.getSituacao())) {
+				contaReceber.setSituacao(ContaReceber.Situacao.AMORTIZADO);
+				repositorioContaReceber.saveAndFlush(contaReceber);
+			}
+		} else {
+			if (!ContaReceber.Situacao.BAIXADO.equals(contaReceber.getSituacao())) {
+				contaReceber.setSituacao(ContaReceber.Situacao.BAIXADO);
+				repositorioContaReceber.saveAndFlush(contaReceber);
+			}
 		}
 	}
 }
