@@ -140,7 +140,7 @@ public class ContaReceber extends AuditavelAbstrato<Credencial, BigInteger> {
 				.filter(p -> !p.isEstornado())
 				.max(Comparator.comparing(MovimentacaoContaReceber::getDataCriacao))
 				.map(p -> BigDecimal.ZERO.compareTo(p.getSaldoDevedor()) < 0)
-				.isPresent();
+				.orElse(Boolean.TRUE);
 	}
 
 	@AllArgsConstructor

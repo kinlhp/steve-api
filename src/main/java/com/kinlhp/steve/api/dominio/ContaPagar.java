@@ -146,7 +146,7 @@ public class ContaPagar extends AuditavelAbstrato<Credencial, BigInteger> {
 				.filter(p -> !p.isEstornado())
 				.max(Comparator.comparing(MovimentacaoContaPagar::getDataCriacao))
 				.map(p -> BigDecimal.ZERO.compareTo(p.getSaldoDevedor()) < 0)
-				.isPresent();
+				.orElse(Boolean.TRUE);
 	}
 
 	@AllArgsConstructor
