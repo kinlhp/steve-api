@@ -17,6 +17,7 @@ import java.math.BigInteger;
 @RestController
 public class RecursoContaReceber implements Serializable {
 
+	private static final long serialVersionUID = 2272311640590317151L;
 	private final ServicoContaReceber servico;
 
 	public RecursoContaReceber(@Autowired ServicoContaReceber servico) {
