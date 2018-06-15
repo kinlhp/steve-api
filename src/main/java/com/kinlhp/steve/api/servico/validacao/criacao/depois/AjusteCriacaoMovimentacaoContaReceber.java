@@ -34,10 +34,10 @@ public class AjusteCriacaoMovimentacaoContaReceber
 		super.dominio = (MovimentacaoContaReceber) object;
 		super.erros = errors;
 
-		AmortizarOuBaixarContaReceber();
+		amortizarOuBaixarContaReceber();
 	}
 
-	private void AmortizarOuBaixarContaReceber() {
+	private void amortizarOuBaixarContaReceber() {
 		final ContaReceber contaReceber = super.dominio.getContaReceber();
 		final Set<MovimentacaoContaReceber> movimentacoes = ((RepositorioMovimentacaoContaReceber) super.repositorio)
 				.findByContaReceber(contaReceber);
