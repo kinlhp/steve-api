@@ -40,12 +40,12 @@ public class ConfiguracaoServidorAutorizacao
 		clients.inMemory()
 				.withClient("aplicativo").secret("@pl1c@t1v0").scopes("escrita", "leitura")
 				.authorizedGrantTypes(Concessao.todas())
-				.accessTokenValiditySeconds(20)
+				.accessTokenValiditySeconds(3_600 * 24)
 				.refreshTokenValiditySeconds(3_600 * 24)
 				.and()
 				.withClient("navegador").secret("n@ve9@d0r").scopes("escrita", "leitura")
 				.authorizedGrantTypes(Concessao.todas())
-				.accessTokenValiditySeconds(20)
+				.accessTokenValiditySeconds(3_600 * 24)
 				.refreshTokenValiditySeconds(3_600 * 24);
 
 	}
